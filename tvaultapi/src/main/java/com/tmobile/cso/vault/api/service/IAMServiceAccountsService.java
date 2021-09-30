@@ -5524,8 +5524,19 @@ public class  IAMServiceAccountsService {
 			return validationErrors;
 		}
 
-		IAMServiceAccountUser oldOwner = new IAMServiceAccountUser(iamSvcAcc.getUserName().toLowerCase(),
-				iamSvcAcc.getOwnerNtid(), TVaultConstants.SUDO_POLICY, iamSvcAcc.getAwsAccountId());
+		IAMServiceAccountUser oldOwner;
+		if (iamSvcAcc != null) {
+			oldOwner = new IAMServiceAccountUser(iamSvcAcc.getUserName().toLowerCase(),
+					iamSvcAcc.getOwnerNtid(), TVaultConstants.SUDO_POLICY, iamSvcAcc.getAwsAccountId());
+		} else {
+			log.error(JSONUtil.getJSON(ImmutableMap.<String, String>builder()
+					.put(LogMessage.USER, ThreadLocalContext.getCurrentMap().get(LogMessage.USER))
+					.put(LogMessage.ACTION, IAMServiceAccountConstants.IAM_SVCACC_TRANSFER_TITLE)
+					.put(LogMessage.MESSAGE, String.format("Failed constructing metadata object for account [%s]", iamSvcAccName))
+					.put(LogMessage.APIURL, ThreadLocalContext.getCurrentMap().get(LogMessage.APIURL)).build()));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+					"{\"errors\":[\"Failed to get metadata for this IAM Service Account.\"]}");
+		}
 		iamSvcAcc.setOwnerEmail(iamServiceAccountTransfer.getOwnerEmail());
 		iamSvcAcc.setOwnerNtid(iamServiceAccountTransfer.getOwnerNtid());
 		if (iamServiceAccountTransfer.getApplicationName() != null && !iamServiceAccountTransfer.getApplicationName().equals("")) {
@@ -5710,15 +5721,6 @@ public class  IAMServiceAccountsService {
 	 */
 	private ResponseEntity<String> validateAbilityToTransfer(String token, IAMServiceAccount iamSvcAcc, String iamSvcAccName,
 															  IAMServiceAccountTransfer iamSvcAccTransfer) {
-		if (iamSvcAcc == null) {
-			log.error(JSONUtil.getJSON(ImmutableMap.<String, String>builder()
-					.put(LogMessage.USER, ThreadLocalContext.getCurrentMap().get(LogMessage.USER))
-					.put(LogMessage.ACTION, IAMServiceAccountConstants.IAM_SVCACC_TRANSFER_TITLE)
-					.put(LogMessage.MESSAGE, String.format("Failed constructing metadata object for account [%s]", iamSvcAccName))
-					.put(LogMessage.APIURL, ThreadLocalContext.getCurrentMap().get(LogMessage.APIURL)).build()));
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-					"{\"errors\":[\"Failed to get metadata for this IAM Service Account.\"]}");
-		}
 
 		if (iamSvcAccTransfer.getOwnerNtid().equals(iamSvcAcc.getOwnerNtid())) {
 			log.error(JSONUtil.getJSON(ImmutableMap.<String, String>builder()
