@@ -69,9 +69,9 @@ public class SecretControllerV2Test {
         String responseMessage = "{  \"data\": {    \"secret1\": \"value1\",    \"secret2\": \"value2\"  }}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(secretService.readFromVault(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("users/safe1"))).thenReturn(responseEntityExpected);
-        when(secretService.readFoldersAndSecrets(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("users/safe1"))).thenReturn(responseEntityExpected);
-        when(secretService.readFromVaultRecursive(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("users/safe1"))).thenReturn(responseEntityExpected);
+        when(secretService.readFromVault(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("users/safe1"))).thenReturn(responseEntityExpected);
+        when(secretService.readFoldersAndSecrets(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("users/safe1"))).thenReturn(responseEntityExpected);
+        when(secretService.readFromVaultRecursive(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("users/safe1"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/safes/folders/secrets?path=users/safe1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -99,7 +99,7 @@ public class SecretControllerV2Test {
         String responseMessage = "{\"messages\":[\"Secret saved to vault\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(secretService.write(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
+        when(secretService.write(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/write")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -116,7 +116,7 @@ public class SecretControllerV2Test {
         String responseMessage = "{\"messages\":[\"Secret saved to vault\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(secretService.write(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any(),Mockito.any())).thenReturn(responseEntityExpected);
+        when(secretService.write(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any(),Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/write")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -133,7 +133,7 @@ public class SecretControllerV2Test {
         String responseMessage = "{\"messages\":[\"Secrets deleted\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(secretService.deleteFromVault(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("users/safe1"))).thenReturn(responseEntityExpected);
+        when(secretService.deleteFromVault(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("users/safe1"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/safes/folders/secrets?path=users/safe1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -171,7 +171,7 @@ public class SecretControllerV2Test {
                 "}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(secretService.getSecretCount(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq(TVaultConstants.SHARED), eq(0))).thenReturn(responseEntityExpected);
+        when(secretService.getSecretCount(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq(TVaultConstants.SHARED), Mockito.eq(0))).thenReturn(responseEntityExpected);
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/safes/count?safeType=shared&offset=0")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
                 .header("Content-Type", "application/json;charset=UTF-8"))
@@ -204,7 +204,7 @@ public class SecretControllerV2Test {
                 "}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(secretService.getFolderVersionInfo(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("users/123safe/fld1"))).thenReturn(responseEntityExpected);
+        when(secretService.getFolderVersionInfo(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("users/123safe/fld1"))).thenReturn(responseEntityExpected);
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/safes/folders/versioninfo?path=users/123safe/fld1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
                 .header("Content-Type", "application/json;charset=UTF-8"))

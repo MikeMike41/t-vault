@@ -5679,17 +5679,18 @@ public ResponseEntity<String> getRevocationReasons(Integer certificateId, String
 						.build()));
 			}
 		}
-		if(ldapConfigresponse.getHttpstatus().equals(HttpStatus.NO_CONTENT) || ldapConfigresponse.getHttpstatus().equals(HttpStatus.OK)){
+		if(ldapConfigresponse != null && (ldapConfigresponse.getHttpstatus().equals(HttpStatus.NO_CONTENT) ||
+                ldapConfigresponse.getHttpstatus().equals(HttpStatus.OK))){
 			return updateMetadataForRemoveUserFromCertificate(userName, certificatePath, authToken, groups,
 					currentpoliciesString, userDetails, currentpolicies, oidcEntityResponse.getEntityName());
 		} else {
 			log.error(JSONUtil.getJSON(ImmutableMap.<String, String>builder().
 					put(LogMessage.USER, ThreadLocalContext.getCurrentMap().get(LogMessage.USER)).
 					put(LogMessage.ACTION, SSLCertificateConstants.REMOVE_USER_FROM_CERT_MSG).
-					put(LogMessage.MESSAGE, "Failed to remvoe the user from the certificate").
+					put(LogMessage.MESSAGE, "Failed to remove the user from the certificate").
 					put(LogMessage.APIURL, ThreadLocalContext.getCurrentMap().get(LogMessage.APIURL)).
 					build()));
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Failed to remvoe the user from the certificate\"]}");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Failed to remove the user from the certificate\"]}");
 		}
 	}
 
@@ -7407,7 +7408,7 @@ public ResponseEntity<String> getRevocationReasons(Integer certificateId, String
 			log.error(JSONUtil.getJSON(ImmutableMap.<String, String>builder().
 					put(LogMessage.USER, ThreadLocalContext.getCurrentMap().get(LogMessage.USER)).
 					put(LogMessage.ACTION, SSLCertificateConstants.REMOVE_USER_FROM_CERT_MSG).
-					put(LogMessage.MESSAGE, "Failed to remvoe the user from the certificate").
+					put(LogMessage.MESSAGE, "Failed to remove the user from the certificate").
 					put(LogMessage.APIURL, ThreadLocalContext.getCurrentMap().get(LogMessage.APIURL)).
 					build()));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"errors\":[\"Failed to remove the " +

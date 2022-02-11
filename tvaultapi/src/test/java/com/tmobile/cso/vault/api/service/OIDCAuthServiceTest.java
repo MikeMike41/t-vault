@@ -63,7 +63,7 @@ import com.tmobile.cso.vault.api.process.Response;
 @ComponentScan(basePackages = { "com.tmobile.cso.vault.api" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ ControllerUtil.class, JSONUtil.class, PolicyUtils.class, OIDCUtil.class})
-@PowerMockIgnore({ "javax.management.*", "javax.net.ssl.*" })
+@PowerMockIgnore({ "javax.management.*", "javax.net.ssl.*", "javax.script.*" })
 public class OIDCAuthServiceTest {
 
     @InjectMocks
@@ -321,7 +321,7 @@ public class OIDCAuthServiceTest {
                 "  \"auth\": null\n" +
                 "}";
         Response response = getMockResponse(HttpStatus.OK, true, responseJson);
-        when(JSONUtil.getJSON(any(OidcRequest.class))).thenReturn(jsonStr);
+        when(JSONUtil.getJSON(Mockito.any(OidcRequest.class))).thenReturn(jsonStr);
         when(reqProcessor.process("/auth/oidc/oidc/auth_url",jsonStr,"")).thenReturn(response);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
@@ -337,7 +337,7 @@ public class OIDCAuthServiceTest {
         String jsonStr = "{  \"role\": \"default\",  \"redirect_uri\": \"http://localhost:3000\"}";
         String responseJson = "{\"errors\":[\"Failed to get OIDC auth url\"]}";
         Response response = getMockResponse(HttpStatus.BAD_REQUEST, true, responseJson);
-        when(JSONUtil.getJSON(any(OidcRequest.class))).thenReturn(jsonStr);
+        when(JSONUtil.getJSON(Mockito.any(OidcRequest.class))).thenReturn(jsonStr);
         when(reqProcessor.process("/auth/oidc/oidc/auth_url",jsonStr,"")).thenReturn(response);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseJson);
 
@@ -374,9 +374,9 @@ public class OIDCAuthServiceTest {
 
         when(reqProcessor.process("/auth/oidc/oidc/callback","{\"path\":\""+pathStr+"\"}","")).thenReturn(response);
         Map<String, Object> access = new HashMap<>();
-        when(ControllerUtil.filterDuplicateSafePermissions(any())).thenReturn(access);
-        when(ControllerUtil.filterDuplicateSvcaccPermissions(any())).thenReturn(access);
-        when(JSONUtil.getJSON(any(Map.class))).thenReturn(responseJson);
+        when(ControllerUtil.filterDuplicateSafePermissions(Mockito.any())).thenReturn(access);
+        when(ControllerUtil.filterDuplicateSvcaccPermissions(Mockito.any())).thenReturn(access);
+        when(JSONUtil.getJSON(Mockito.any(Map.class))).thenReturn(responseJson);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
         ResponseEntity<String> responseEntity = oidcAuthService.processOIDCCallback(state, code);

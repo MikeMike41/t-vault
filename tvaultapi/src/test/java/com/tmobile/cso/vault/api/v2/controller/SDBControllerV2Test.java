@@ -111,7 +111,7 @@ public class SDBControllerV2Test {
         String responseJson = "{\"messages\":[\"Folder created \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.createfolder(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(safesService.createfolder(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/sdb/folder?path=users/safe1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -129,7 +129,7 @@ public class SDBControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(safe);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(safesService.deletefolder(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any() , Mockito.any(UserDetails.class), Mockito.any())).thenReturn(responseEntityExpected);
+        when(safesService.deletefolder(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any() , Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/sdb/delete?path=users/safe1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -147,7 +147,7 @@ public class SDBControllerV2Test {
         String responseJson = "{\"messages\":[\"Safe updated \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.updateSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(safesService.updateSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v2/sdb")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -166,7 +166,7 @@ public class SDBControllerV2Test {
         String responseJson = "{\"messages\":[\"Safe updated \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.createSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(safesService.createSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/sdb")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -185,7 +185,7 @@ public class SDBControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(safe);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(safesService.deleteSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any() , Mockito.any(UserDetails.class))).thenReturn(responseEntityExpected);
+        when(safesService.deleteSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any() , Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/sdb")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -216,7 +216,7 @@ public class SDBControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(safeUser);
         String responseJson = "{\"messages\":[\"User is successfully associated \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-        when(safesService.addUserToSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), eq(null), eq(false))).thenReturn(responseEntityExpected);
+        when(safesService.addUserToSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.eq(null), Mockito.eq(false))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/sdb/user")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -234,7 +234,7 @@ public class SDBControllerV2Test {
         String inputJson =new ObjectMapper().writeValueAsString(safeUser);
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.removeUserFromSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any(UserDetails.class))).thenReturn(responseEntityExpected);
+        when(safesService.removeUserFromSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/sdb/user")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -252,7 +252,7 @@ public class SDBControllerV2Test {
         String responseJson = "{\"messages\":[\"Group is successfully associated with Safe\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.addGroupToSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any(UserDetails.class))).thenReturn(responseEntityExpected);
+        when(safesService.addGroupToSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/sdb/group")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -270,7 +270,7 @@ public class SDBControllerV2Test {
         String responseJson = "{\"messages\":[\"Group association is removed \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.removeGroupFromSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any(UserDetails.class))).thenReturn(responseEntityExpected);
+        when(safesService.removeGroupFromSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/sdb/group")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -288,7 +288,7 @@ public class SDBControllerV2Test {
         String responseJson = "{\"messages\":[\"Role is successfully associated \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.addAwsRoleToSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(safesService.addAwsRoleToSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/sdb/role")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -306,7 +306,7 @@ public class SDBControllerV2Test {
         String responseJson = "{\"messages\":[\"Role association is removed \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.removeAWSRoleFromSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), eq(false), Mockito.any())).thenReturn(responseEntityExpected);
+        when(safesService.removeAWSRoleFromSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.eq(false), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/sdb/role")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -324,7 +324,7 @@ public class SDBControllerV2Test {
         String responseJson = "{\"messages\":[\"Role association is removed \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.removeAWSRoleFromSafe(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), eq(true), Mockito.any())).thenReturn(responseEntityExpected);
+        when(safesService.removeAWSRoleFromSafe(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.eq(true), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v2/sdb/role")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -353,7 +353,7 @@ public class SDBControllerV2Test {
         String responseJson = "{\"messages\":[\"Folder created \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.createNestedfolder(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
+        when(safesService.createNestedfolder(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/sdb/createfolder?path=users/safe1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -368,7 +368,7 @@ public class SDBControllerV2Test {
         String inputJson = "{\"role\":\"approle1\",\"path\":\"users/safe1\"}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-        when(safesService.associateApproletoSDB(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(safesService.associateApproletoSDB(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/sdb/approle")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")

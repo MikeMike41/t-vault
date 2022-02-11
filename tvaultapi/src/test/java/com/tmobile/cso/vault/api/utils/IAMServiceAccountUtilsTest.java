@@ -72,7 +72,7 @@ import static org.mockito.Mockito.*;
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ JSONUtil.class, ControllerUtil.class })
-@PowerMockIgnore({"javax.management.*"})
+@PowerMockIgnore({"javax.management.*", "javax.script.*"})
 public class IAMServiceAccountUtilsTest {
 
     @InjectMocks
@@ -105,7 +105,7 @@ public class IAMServiceAccountUtilsTest {
         PowerMockito.mockStatic(ControllerUtil.class);
         Whitebox.setInternalState(ControllerUtil.class, "log", LogManager.getLogger(ControllerUtil.class));
         Whitebox.setInternalState(ControllerUtil.class, "reqProcessor", reqProcessor);
-        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn("log");
+        when(JSONUtil.getJSON(Mockito.any())).thenReturn("log");
         ReflectionTestUtils.setField(iamServiceAccountUtils, "iamPortalAuthEndpoint", "testendpoint");
         ReflectionTestUtils.setField(iamServiceAccountUtils, "iamPortalDomain", "testdomain");
         ReflectionTestUtils.setField(iamServiceAccountUtils, "iamPortalrotateSecretEndpoint", "testendpoint");

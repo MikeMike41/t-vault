@@ -57,7 +57,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({JSONUtil.class, ControllerUtil.class})
-@PowerMockIgnore({"javax.management.*"})
+@PowerMockIgnore({"javax.management.*", "javax.script.*"})
 public class AWSIAMAuthServiceTest {
 
     @InjectMocks
@@ -120,7 +120,7 @@ public class AWSIAMAuthServiceTest {
         when(reqProcessor.process("/auth/aws/iam/role/create",jsonStr, token)).thenReturn(response);
         when(JSONUtil.getJSON(awsiamRole)).thenReturn(jsonStr);
         UserDetails userDetails = getMockUser(true);
-        when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(true);
+        when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(token))).thenReturn(true);
         try {
             when(ControllerUtil.areAWSIAMRoleInputsValid(awsiamRole)).thenReturn(true);
             when(ControllerUtil.populateUserMetaJson(Mockito.any(), Mockito.any())).thenReturn("awsiamroleUsermetadataJson");
@@ -155,7 +155,7 @@ public class AWSIAMAuthServiceTest {
         when(reqProcessor.process("/auth/aws/iam/role/create",jsonStr, token)).thenReturn(response);
         when(JSONUtil.getJSON(awsiamRole)).thenReturn(jsonStr);
         UserDetails userDetails = getMockUser(true);
-        when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(false);
+        when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(token))).thenReturn(false);
         when(reqProcessor.process("/auth/aws/iam/roles/delete","{\"role\":\""+awsiamRole.getRole()+"\"}",token)).thenReturn(response);
         try {
             when(ControllerUtil.areAWSIAMRoleInputsValid(awsiamRole)).thenReturn(true);
@@ -189,7 +189,7 @@ public class AWSIAMAuthServiceTest {
         when(reqProcessor.process("/auth/aws/iam/role/create",jsonStr, token)).thenReturn(response);
         when(JSONUtil.getJSON(awsiamRole)).thenReturn(jsonStr);
         UserDetails userDetails = getMockUser(true);
-        when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(false);
+        when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(token))).thenReturn(false);
         Response response404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         when(reqProcessor.process("/auth/aws/iam/roles/delete","{\"role\":\""+awsiamRole.getRole()+"\"}",token)).thenReturn(response404);
         try {
@@ -225,7 +225,7 @@ public class AWSIAMAuthServiceTest {
         when(reqProcessor.process("/auth/aws/iam/role/create",jsonStr, token)).thenReturn(response);
         when(JSONUtil.getJSON(awsiamRole)).thenReturn(jsonStr);
         UserDetails userDetails = getMockUser(true);
-        when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(false);
+        when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(token))).thenReturn(false);
         Response response404 = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         when(reqProcessor.process("/auth/aws/iam/roles/delete","{\"role\":\""+awsiamRole.getRole()+"\"}",token)).thenReturn(response404);
         try {
@@ -351,7 +351,7 @@ public class AWSIAMAuthServiceTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
 
         Response responsemock = getMockResponse(HttpStatus.NO_CONTENT, true, "");
-        when(reqProcessor.process(eq("/auth/aws/iam/roles/update"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/auth/aws/iam/roles/update"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         Response response = awsIamAuthService.configureAWSIAMRole(roleName, policies, token);
         assertEquals(HttpStatus.NO_CONTENT, response.getHttpstatus());
     }
@@ -445,7 +445,7 @@ public class AWSIAMAuthServiceTest {
         when(reqProcessor.process("/auth/aws/iam/role/create",jsonStr, sampletok)).thenReturn(response);
         when(JSONUtil.getJSON(awsiamRole)).thenReturn(jsonStr);
         UserDetails userDetails = getMockUser(true);
-        when(ControllerUtil.createMetadata(Mockito.any(), eq(sampletok))).thenReturn(false);
+        when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(sampletok))).thenReturn(false);
 
         try {
             when(ControllerUtil.areAWSIAMRoleInputsValid(awsiamRole)).thenReturn(true);
@@ -480,7 +480,7 @@ public class AWSIAMAuthServiceTest {
         when(reqProcessor.process("/auth/aws/iam/role/create",jsonStr, sampletok)).thenReturn(response);
         when(JSONUtil.getJSON(awsiamRole)).thenReturn(jsonStr);
         UserDetails userDetails = getMockUser(true);
-        when(ControllerUtil.createMetadata(Mockito.any(), eq(sampletok))).thenReturn(false);
+        when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(sampletok))).thenReturn(false);
 
         try {
             when(ControllerUtil.areAWSIAMRoleInputsValid(awsiamRole)).thenReturn(true);

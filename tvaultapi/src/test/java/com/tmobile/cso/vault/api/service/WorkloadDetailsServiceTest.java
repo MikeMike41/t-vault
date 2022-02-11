@@ -53,7 +53,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @ComponentScan(basePackages = {"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ControllerUtil.class, JSONUtil.class, EntityUtils.class, HttpClientBuilder.class})
-@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
+@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*", "javax.script.*"})
 public class WorkloadDetailsServiceTest {
 
     private MockMvc mockMvc;
@@ -97,21 +97,21 @@ public class WorkloadDetailsServiceTest {
         ReflectionTestUtils.setField(workloadDetailsService, "workloadEndpointToken", "token12");
 
         Whitebox.setInternalState(ControllerUtil.class, "log", LogManager.getLogger(ControllerUtil.class));
-        when(JSONUtil.getJSON(any(ImmutableMap.class))).thenReturn("log");
+        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn("log");
 
         Map<String, String> currentMap = new HashMap<>();
         currentMap.put("apiurl", "http://localhost:8080/vault/v2/ad");
         currentMap.put("user", "");
         ThreadLocalContext.setCurrentMap(currentMap);
         Whitebox.setInternalState(ControllerUtil.class, "log", LogManager.getLogger(ControllerUtil.class));
-        when(JSONUtil.getJSON(any(ImmutableMap.class))).thenReturn("log");
+        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn("log");
 
         token = "5PDrOhsy4ig8L3EpsJZSLAMg";
         userDetails.setUsername("normaluser");
         userDetails.setAdmin(true);
         userDetails.setClientToken(token);
         userDetails.setSelfSupportToken(token);
-        when(vaultAuthService.lookup(anyString())).thenReturn(new ResponseEntity<>(HttpStatus.OK));
+        when(vaultAuthService.lookup(Mockito.anyString())).thenReturn(new ResponseEntity<>(HttpStatus.OK));
     }
 
     @Test
@@ -123,10 +123,10 @@ public class WorkloadDetailsServiceTest {
         when(ControllerUtil.getCwmToken()).thenReturn("dG9rZW4=");
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setSSLContext(Mockito.any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setRedirectStrategy(Mockito.any())).thenReturn(httpClientBuilder);
         when(httpClientBuilder.build()).thenReturn(httpClient1);
-        when(httpClient1.execute(any())).thenReturn(httpResponse);
+        when(httpClient1.execute(Mockito.any())).thenReturn(httpResponse);
 
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(200);
@@ -153,10 +153,10 @@ public class WorkloadDetailsServiceTest {
         when(ControllerUtil.getCwmToken()).thenReturn("dG9rZW4=");
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setSSLContext(Mockito.any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setRedirectStrategy(Mockito.any())).thenReturn(httpClientBuilder);
         when(httpClientBuilder.build()).thenReturn(httpClient1);
-        when(httpClient1.execute(any())).thenReturn(httpResponse);
+        when(httpClient1.execute(Mockito.any())).thenReturn(httpResponse);
 
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(200);
@@ -178,10 +178,10 @@ public class WorkloadDetailsServiceTest {
         when(ControllerUtil.getCwmToken()).thenReturn("dG9rZW4=");
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setSSLContext(Mockito.any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setRedirectStrategy(Mockito.any())).thenReturn(httpClientBuilder);
         when(httpClientBuilder.build()).thenReturn(httpClient1);
-        when(httpClient1.execute(any())).thenReturn(httpResponse);
+        when(httpClient1.execute(Mockito.any())).thenReturn(httpResponse);
 
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(200);
@@ -207,10 +207,10 @@ public class WorkloadDetailsServiceTest {
         when(ControllerUtil.getCwmToken()).thenReturn("dG9rZW4=");
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setSSLContext(Mockito.any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setRedirectStrategy(Mockito.any())).thenReturn(httpClientBuilder);
         when(httpClientBuilder.build()).thenReturn(httpClient1);
-        when(httpClient1.execute(any())).thenReturn(httpResponse);
+        when(httpClient1.execute(Mockito.any())).thenReturn(httpResponse);
 
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(200);
@@ -236,10 +236,10 @@ public class WorkloadDetailsServiceTest {
         when(ControllerUtil.getCwmToken()).thenReturn("dG9rZW4=");
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setSSLContext(Mockito.any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setRedirectStrategy(Mockito.any())).thenReturn(httpClientBuilder);
         when(httpClientBuilder.build()).thenReturn(httpClient1);
-        when(httpClient1.execute(any())).thenReturn(httpResponse);
+        when(httpClient1.execute(Mockito.any())).thenReturn(httpResponse);
 
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(400);
@@ -262,10 +262,10 @@ public class WorkloadDetailsServiceTest {
         when(ControllerUtil.getCwmToken()).thenReturn("");
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setSSLContext(Mockito.any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setRedirectStrategy(Mockito.any())).thenReturn(httpClientBuilder);
         when(httpClientBuilder.build()).thenReturn(httpClient1);
-        when(httpClient1.execute(any())).thenReturn(httpResponse);
+        when(httpClient1.execute(Mockito.any())).thenReturn(httpResponse);
 
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(400);
@@ -292,10 +292,10 @@ public class WorkloadDetailsServiceTest {
         when(ControllerUtil.getCwmToken()).thenReturn("dG9rZW4=");
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setSSLContext(Mockito.any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setRedirectStrategy(Mockito.any())).thenReturn(httpClientBuilder);
         when(httpClientBuilder.build()).thenReturn(httpClient1);
-        when(httpClient1.execute(any())).thenReturn(httpResponse);
+        when(httpClient1.execute(Mockito.any())).thenReturn(httpResponse);
 
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(200);
@@ -321,10 +321,10 @@ public class WorkloadDetailsServiceTest {
         when(ControllerUtil.getCwmToken()).thenReturn("dG9rZW4=");
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setSSLContext(Mockito.any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setRedirectStrategy(Mockito.any())).thenReturn(httpClientBuilder);
         when(httpClientBuilder.build()).thenReturn(httpClient1);
-        when(httpClient1.execute(any())).thenReturn(httpResponse);
+        when(httpClient1.execute(Mockito.any())).thenReturn(httpResponse);
 
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(500);
@@ -349,10 +349,10 @@ public class WorkloadDetailsServiceTest {
         when(ControllerUtil.getCwmToken()).thenReturn("dG9rZW4=");
         when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
         when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setSSLContext(Mockito.any())).thenReturn(httpClientBuilder);
+        when(httpClientBuilder.setRedirectStrategy(Mockito.any())).thenReturn(httpClientBuilder);
         when(httpClientBuilder.build()).thenReturn(httpClient1);
-        when(httpClient1.execute(any())).thenReturn(httpResponse);
+        when(httpClient1.execute(Mockito.any())).thenReturn(httpResponse);
 
         when(httpResponse.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(200);
@@ -440,7 +440,7 @@ public class WorkloadDetailsServiceTest {
 
         Response expectedResponse = new Response();
         expectedResponse.setHttpstatus(HttpStatus.NO_CONTENT);
-        when(reqProcessor.process(eq("/write"), Mockito.any(), eq(token))).thenReturn(expectedResponse);
+        when(reqProcessor.process(Mockito.eq("/write"), Mockito.any(), Mockito.eq(token))).thenReturn(expectedResponse);
         Response actualResponse = workloadDetailsService.udpateApplicationMetadata(token, tmoAppMetadataDetails, tmoAppMetadataDetailsCLM);
         assertEquals(expectedResponse.getHttpstatus(), actualResponse.getHttpstatus());
     }
@@ -453,7 +453,7 @@ public class WorkloadDetailsServiceTest {
 
         Response expectedResponse = new Response();
         expectedResponse.setHttpstatus(HttpStatus.NO_CONTENT);
-        when(reqProcessor.process(eq("/write"), Mockito.any(), eq(token))).thenReturn(expectedResponse);
+        when(reqProcessor.process(Mockito.eq("/write"), Mockito.any(), Mockito.eq(token))).thenReturn(expectedResponse);
         Response actualResponse = workloadDetailsService.udpateApplicationMetadata(token, tmoAppMetadataDetails, tmoAppMetadataDetailsCLM);
         assertEquals(expectedResponse.getHttpstatus(), actualResponse.getHttpstatus());
     }

@@ -63,7 +63,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ControllerUtil.class, JSONUtil.class})
-@PowerMockIgnore({"javax.management.*"})
+@PowerMockIgnore({"javax.management.*", "javax.script.*"})
 public class SecretServiceTest {
 
     @InjectMocks
@@ -139,7 +139,7 @@ public class SecretServiceTest {
         when(JSONUtil.getJSON(secret)).thenReturn(jsonStr);
         Response readResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"secret1\":\"value1\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+secret.getPath()+"\"}",token)).thenReturn(readResponse);
-        when(safeUtils.updateActivityInfo(eq(token), eq(path), eq(userDetails), eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
+        when(safeUtils.updateActivityInfo(Mockito.eq(token), Mockito.eq(path), Mockito.eq(userDetails), Mockito.eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
         ResponseEntity<String> responseEntity = secretService.write(token, secret, userDetails);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
@@ -173,7 +173,7 @@ public class SecretServiceTest {
         when(JSONUtil.getJSON(secret)).thenReturn(jsonStr);
         Response readResponse = getMockResponse(HttpStatus.NOT_FOUND, true, "");
         when(reqProcessor.process("/read","{\"path\":\""+secret.getPath()+"\"}",token)).thenReturn(readResponse);
-        when(safeUtils.updateActivityInfo(eq(token), eq(path), eq(userDetails), eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
+        when(safeUtils.updateActivityInfo(Mockito.eq(token), Mockito.eq(path), Mockito.eq(userDetails), Mockito.eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
         ResponseEntity<String> responseEntity = secretService.write(token, secret, userDetails);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
@@ -208,7 +208,7 @@ public class SecretServiceTest {
         when(JSONUtil.getJSON(secret)).thenReturn(jsonStr);
         Response readResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"secret3\":\"value1\",\"secret2\":\"value2\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+secret.getPath()+"\"}",token)).thenReturn(readResponse);
-        when(safeUtils.updateActivityInfo(eq(token), eq(path), eq(userDetails), eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
+        when(safeUtils.updateActivityInfo(Mockito.eq(token), Mockito.eq(path), Mockito.eq(userDetails), Mockito.eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
         ResponseEntity<String> responseEntity = secretService.write(token, secret, userDetails);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
@@ -242,7 +242,7 @@ public class SecretServiceTest {
         when(JSONUtil.getJSON(secret)).thenReturn(jsonStr);
         Response readResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"secret3\":\"value1\",\"secret2\":\"value21\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+secret.getPath()+"\"}",token)).thenReturn(readResponse);
-        when(safeUtils.updateActivityInfo(eq(token), eq(path), eq(userDetails), eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, ""));
+        when(safeUtils.updateActivityInfo(Mockito.eq(token), Mockito.eq(path), Mockito.eq(userDetails), Mockito.eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, ""));
         ResponseEntity<String> responseEntity = secretService.write(token, secret, userDetails);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
@@ -275,7 +275,7 @@ public class SecretServiceTest {
         when(JSONUtil.getJSON(secret)).thenReturn(jsonStr);
         Response readResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"secret1\":\"value1\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+secret.getPath()+"\"}",token)).thenReturn(readResponse);
-        when(safeUtils.updateActivityInfo(eq(token), eq(path), eq(userDetails), eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
+        when(safeUtils.updateActivityInfo(Mockito.eq(token), Mockito.eq(path), Mockito.eq(userDetails), Mockito.eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
         ResponseEntity<String> responseEntity = secretService.write(token, secret, userDetails,"true");
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
@@ -308,7 +308,7 @@ public class SecretServiceTest {
         when(JSONUtil.getJSON(secret)).thenReturn(jsonStr);
         Response readResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"secret1\":\"value1\",\"secret2\":\"value2\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+secret.getPath()+"\"}",token)).thenReturn(readResponse);
-        when(safeUtils.updateActivityInfo(eq(token), eq(path), eq(userDetails), eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
+        when(safeUtils.updateActivityInfo(Mockito.eq(token), Mockito.eq(path), Mockito.eq(userDetails), Mockito.eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
         ResponseEntity<String> responseEntity = secretService.write(token, secret, userDetails,"true");
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
@@ -341,7 +341,7 @@ public class SecretServiceTest {
         when(JSONUtil.getJSON(secret)).thenReturn(jsonStr);
         Response readResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"secret1\":\"value1\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+secret.getPath()+"\"}",token)).thenReturn(readResponse);
-        when(safeUtils.updateActivityInfo(eq(token), eq(path), eq(userDetails), eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, ""));
+        when(safeUtils.updateActivityInfo(Mockito.eq(token), Mockito.eq(path), Mockito.eq(userDetails), Mockito.eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, ""));
         ResponseEntity<String> responseEntity = secretService.write(token, secret, userDetails,"true");
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
@@ -671,7 +671,7 @@ public class SecretServiceTest {
         folders.add(folder1);
         userSafeNode.setChildren(folders);
 
-        when(ControllerUtil.recursiveReadForCount(Mockito.any(),eq(token),Mockito.any(), Mockito.any(), eq(TVaultConstants.SAFE))).thenReturn(userSafeNode);
+        when(ControllerUtil.recursiveReadForCount(Mockito.any(),Mockito.eq(token),Mockito.any(), Mockito.any(), Mockito.eq(TVaultConstants.SAFE))).thenReturn(userSafeNode);
 
         SecretCount secretCount = new SecretCount();
         Map<String, Integer> userSecretCount = new HashMap<>();
@@ -693,7 +693,7 @@ public class SecretServiceTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        when(reqProcessor.process(eq("/sdb/list"), Mockito.any(), eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true, "{\"keys\":[\"users/safe1\",\"users/safe2\"]}"));
+        when(reqProcessor.process(Mockito.eq("/sdb/list"), Mockito.any(), Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true, "{\"keys\":[\"users/safe1\",\"users/safe2\"]}"));
         ResponseEntity<String> responseEntity = secretService.getSecretCount(token, TVaultConstants.USERS, 0);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
@@ -808,7 +808,7 @@ public class SecretServiceTest {
         when(JSONUtil.getJSON(secret)).thenReturn(jsonStr);
         Response readResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"secret1\":\"value1\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+secret.getPath()+"\"}",sampletok)).thenReturn(readResponse);
-        when(safeUtils.updateActivityInfo(eq(sampletok), eq(path), eq(userDetails), eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
+        when(safeUtils.updateActivityInfo(Mockito.eq(sampletok), Mockito.eq(path), Mockito.eq(userDetails), Mockito.eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
         ResponseEntity<String> responseEntity = secretService.write(sampletok, secret, userDetails);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals(responseEntityExpected, responseEntity);
@@ -841,7 +841,7 @@ public class SecretServiceTest {
         when(JSONUtil.getJSON(secret)).thenReturn(jsonStr);
         Response readResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"secret1\":\"value1\"}}");
         when(reqProcessor.process("/read","{\"path\":\""+secret.getPath()+"\"}",sampletok)).thenReturn(readResponse);
-        when(safeUtils.updateActivityInfo(eq(sampletok), eq(path), eq(userDetails), eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
+        when(safeUtils.updateActivityInfo(Mockito.eq(sampletok), Mockito.eq(path), Mockito.eq(userDetails), Mockito.eq(TVaultConstants.UPDATE_ACTION), Mockito.any(), Mockito.any())).thenReturn(response);
         ResponseEntity<String> responseEntity = secretService.write(sampletok, secret, userDetails);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 

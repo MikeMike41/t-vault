@@ -61,7 +61,7 @@ public class HttpUtils {
 								}
 							}).build()
 					).setRedirectStrategy(new LaxRedirectStrategy()).build();
-		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e1) {
+		} catch (Exception e1) {
 			log.error(JSONUtil.getJSON(ImmutableMap.<String, String>builder().
 					put(LogMessage.USER, ThreadLocalContext.getCurrentMap().get(LogMessage.USER)).
 					put(LogMessage.ACTION, "getHttpClient").

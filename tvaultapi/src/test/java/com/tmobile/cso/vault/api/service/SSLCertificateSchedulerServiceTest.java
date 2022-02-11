@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackages = {"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ControllerUtil.class, JSONUtil.class,EntityUtils.class,HttpClientBuilder.class, OIDCUtil.class})
-@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
+@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*", "javax.script.*"})
 public class SSLCertificateSchedulerServiceTest {
 
     private MockMvc mockMvc;
@@ -81,7 +81,7 @@ public class SSLCertificateSchedulerServiceTest {
 
         Whitebox.setInternalState(ControllerUtil.class, "log", LogManager.getLogger(ControllerUtil.class));
 
-        when(JSONUtil.getJSON(any(ImmutableMap.class))).thenReturn("log");
+        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn("log");
 
         Map<String, String> currentMap = new HashMap<>();
         currentMap.put("apiurl", "ssl application change Scheduler");
@@ -146,10 +146,10 @@ public class SSLCertificateSchedulerServiceTest {
                 "  \"onboardFlag\": false,\n" +
                 "  \"projectLeadEmailId\": \"lead11@company.com\"" +
                 "}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
 
-        when(workloadDetailsService.udpateApplicationMetadata(eq(token), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
+        when(workloadDetailsService.udpateApplicationMetadata(Mockito.eq(token), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
         sslCertificateSchedulerService.checkApplicationMetaDataChanges();
         assertTrue(true);
     }
@@ -225,7 +225,7 @@ public class SSLCertificateSchedulerServiceTest {
         tmoAppMetadataList.add(new TMOAppMetadataDetails("tst1", "owner1@company.com", "tst1-tag", "lead1@company.com", internalCertList, null, false));
         when(workloadDetailsService.getAllAppMetadata(token)).thenReturn(tmoAppMetadataList);
 
-        when(workloadDetailsService.udpateApplicationMetadata(eq(token), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
+        when(workloadDetailsService.udpateApplicationMetadata(Mockito.eq(token), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
 
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\n" +
                 "  \"actionId\": 0,\n" +
@@ -248,8 +248,8 @@ public class SSLCertificateSchedulerServiceTest {
                 "  \"onboardFlag\": false,\n" +
                 "  \"projectLeadEmailId\": \"lead11@company.com\"" +
                 "}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.BAD_REQUEST, true, ""));
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.BAD_REQUEST, true, ""));
 
         sslCertificateSchedulerService.checkApplicationMetaDataChanges();
         assertTrue(true);
@@ -291,8 +291,8 @@ public class SSLCertificateSchedulerServiceTest {
                 "  \"onboardFlag\": false,\n" +
                 "  \"projectLeadEmailId\": \"lead1@company.com\"" +
                 "}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
-        when(workloadDetailsService.udpateApplicationMetadata(eq(token), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, ""));
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
+        when(workloadDetailsService.udpateApplicationMetadata(Mockito.eq(token), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, ""));
         sslCertificateSchedulerService.checkApplicationMetaDataChanges();
         assertTrue(true);
     }
@@ -312,8 +312,8 @@ public class SSLCertificateSchedulerServiceTest {
         tmoAppMetadataList.add(new TMOAppMetadataDetails("tst1", "owner1@company.com", "tst1-tag", "lead1@company.com", internalCertList, null, false));
         when(workloadDetailsService.getAllAppMetadata(token)).thenReturn(tmoAppMetadataList);
 
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.BAD_REQUEST, false, ""));
-        when(workloadDetailsService.udpateApplicationMetadata(eq(token), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, ""));
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.BAD_REQUEST, false, ""));
+        when(workloadDetailsService.udpateApplicationMetadata(Mockito.eq(token), Mockito.any(), Mockito.any())).thenReturn(getMockResponse(HttpStatus.INTERNAL_SERVER_ERROR, false, ""));
         sslCertificateSchedulerService.checkApplicationMetaDataChanges();
         assertTrue(true);
     }

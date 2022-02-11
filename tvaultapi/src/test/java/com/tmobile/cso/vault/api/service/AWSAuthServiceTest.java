@@ -55,7 +55,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({JSONUtil.class, ControllerUtil.class})
-@PowerMockIgnore({"javax.management.*"})
+@PowerMockIgnore({"javax.management.*", "javax.script.*"})
 public class AWSAuthServiceTest {
 
     @InjectMocks
@@ -122,9 +122,9 @@ public class AWSAuthServiceTest {
         when(ControllerUtil.updateMetaDataOnConfigChanges(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(response);
         when(JSONUtil.getJSON(awsLoginRole)).thenReturn(jsonStr);
         UserDetails userDetails = getMockUser(true);
-        when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(true);
+        when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(token))).thenReturn(true);
         when(ControllerUtil.populateUserMetaJson(Mockito.any(), Mockito.any())).thenReturn("awsec2RoleUserMetaDataCreationStatus");
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(responseNoContent);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(responseNoContent);
         ResponseEntity<String> responseEntity = null;
         try {
             when(ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole)).thenReturn(true);
@@ -160,9 +160,9 @@ public class AWSAuthServiceTest {
         when(ControllerUtil.updateMetaDataOnConfigChanges(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(response);
         when(JSONUtil.getJSON(awsLoginRole)).thenReturn(jsonStr);
         UserDetails userDetails = getMockUser(true);
-        when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(false);
+        when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(token))).thenReturn(false);
         when(reqProcessor.process("/auth/aws/roles/delete","{\"role\":\""+awsLoginRole.getRole()+"\"}",token)).thenReturn(responseNoContent);
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(responseNoContent);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(responseNoContent);
         ResponseEntity<String> responseEntity = null;
         try {
             when(ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole)).thenReturn(true);
@@ -199,9 +199,9 @@ public class AWSAuthServiceTest {
         when(ControllerUtil.updateMetaDataOnConfigChanges(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(response);
         when(JSONUtil.getJSON(awsLoginRole)).thenReturn(jsonStr);
         UserDetails userDetails = getMockUser(true);
-        when(ControllerUtil.createMetadata(Mockito.any(), eq(token))).thenReturn(false);
+        when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(token))).thenReturn(false);
         when(reqProcessor.process("/auth/aws/roles/delete","{\"role\":\""+awsLoginRole.getRole()+"\"}",token)).thenReturn(response500);
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(responseNoContent);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(responseNoContent);
         ResponseEntity<String> responseEntity = null;
         try {
             when(ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole)).thenReturn(true);
@@ -228,7 +228,7 @@ public class AWSAuthServiceTest {
         when(ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole)).thenReturn(false);
         Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
         UserDetails userDetails = getMockUser(true);
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(responseNoContent);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(responseNoContent);
         responseEntity = awsAuthService.createRole(token, awsLoginRole, userDetails);
     }
 
@@ -261,7 +261,7 @@ public class AWSAuthServiceTest {
             when(ControllerUtil.areAWSEC2RoleInputsValid(awsLoginRole)).thenReturn(true);
             Response responseNoContent = getMockResponse(HttpStatus.NO_CONTENT, true, "");
             UserDetails userDetails = getMockUser(true);
-            when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(responseNoContent);
+            when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(responseNoContent);
             responseEntity = awsAuthService.createRole(token, awsLoginRole, userDetails);
         } catch (TVaultValidationException e) {
             e.printStackTrace();
@@ -838,7 +838,7 @@ public class AWSAuthServiceTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
 
         Response responsemock = getMockResponse(HttpStatus.NO_CONTENT, true, "");
-        when(reqProcessor.process(eq("/auth/aws/roles/update"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/auth/aws/roles/update"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         Response response = awsAuthService.configureAWSRole(roleName, policies, token);
         assertEquals(HttpStatus.NO_CONTENT, response.getHttpstatus());
     }

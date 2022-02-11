@@ -93,7 +93,7 @@ public class LDAPAuthServiceControllerV2Test {
         String responseMessage = "{\"messages\":[\"LDAP Group configured\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(ldapAuthService.configureLdapGroup(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(ldapAuthService.configureLdapGroup(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v2/auth/ldap/groups")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -109,7 +109,7 @@ public class LDAPAuthServiceControllerV2Test {
         String responseMessage = "{\"keys\": [\"admin\"]]";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(ldapAuthService.listLdapGroups(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(ldapAuthService.listLdapGroups(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/ldap/groups")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -124,7 +124,7 @@ public class LDAPAuthServiceControllerV2Test {
         String responseMessage = "{  \"data\": { \"policies\": [ \"admin\", \"default\" ] }}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(ldapAuthService.fetchLdapGroup(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("group1"))).thenReturn(responseEntityExpected);
+        when(ldapAuthService.fetchLdapGroup(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("group1"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/ldap/groups/group1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -139,7 +139,7 @@ public class LDAPAuthServiceControllerV2Test {
         String responseMessage = "{\"messages\":[\"LDAP Group deleted\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(ldapAuthService.deleteLdapGroup(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("group1"))).thenReturn(responseEntityExpected);
+        when(ldapAuthService.deleteLdapGroup(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("group1"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/auth/ldap/groups/group1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -155,7 +155,7 @@ public class LDAPAuthServiceControllerV2Test {
         String responseMessage = "{\"messages\":[\"LDAP user configured\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(ldapAuthService.configureLdapUser(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(ldapAuthService.configureLdapUser(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v2/auth/ldap/users")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -171,7 +171,7 @@ public class LDAPAuthServiceControllerV2Test {
         String responseMessage = "{\"keys\": [\"safeadmin\",\"vaultadmin\"]]";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(ldapAuthService.listLdapUsers(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(ldapAuthService.listLdapUsers(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/ldap/users")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -186,7 +186,7 @@ public class LDAPAuthServiceControllerV2Test {
         String responseMessage = "{\"keys\": [\"safeadmin\",\"vaultadmin\"]]";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(ldapAuthService.fetchLdapUser(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("user1"))).thenReturn(responseEntityExpected);
+        when(ldapAuthService.fetchLdapUser(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("user1"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/ldap/users/user1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -201,7 +201,7 @@ public class LDAPAuthServiceControllerV2Test {
         String responseMessage = "{\"messages\":[\"LDAP User deleted\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(ldapAuthService.deleteLdapUser(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("user1"))).thenReturn(responseEntityExpected);
+        when(ldapAuthService.deleteLdapUser(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("user1"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/auth/ldap/users/user1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")

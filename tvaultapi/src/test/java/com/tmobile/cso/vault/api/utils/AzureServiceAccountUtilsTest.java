@@ -68,7 +68,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ JSONUtil.class, ControllerUtil.class})
-@PowerMockIgnore({"javax.management.*"})
+@PowerMockIgnore({"javax.management.*", "javax.script.*"})
 public class AzureServiceAccountUtilsTest {
     @Mock
     RequestProcessor reqProcessor;
@@ -188,7 +188,7 @@ public class AzureServiceAccountUtilsTest {
         when(statusLine.getStatusCode()).thenReturn(200);
         when(httpResponse.getEntity()).thenReturn(mockHttpEntity);
         String inputJson = "{\"servicePrincipalId\":\"781998f7-43d0-4c99-9d78-600ce1b6086c\",\"secretKeyId\":\"f36cbb1f-32bb-4063-9cc3-fa305fa4d967\",\"expiryDurationMs\":604800000,\"tenantId\":\"b0163331-70a6-4edc-9bbb-40c3ad1cd965\"}";
-        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn(inputJson);
+        when(JSONUtil.getJSON(Mockito.any())).thenReturn(inputJson);
 
         String responseString = "{\"accessKeyId\": \"testaccesskey\", \"userName\": \"svc_vault_test5\", \"accessKeySecret\": \"abcdefgh\", \"expiryDateEpoch\": \"1609754282000\"}";
         String responseStringToken = "{\"auth\": {\"client_token\": \"" + token + "\"}}";
@@ -238,7 +238,7 @@ public class AzureServiceAccountUtilsTest {
         when(statusLine.getStatusCode()).thenReturn(200);
         when(httpResponse.getEntity()).thenReturn(mockHttpEntity);
         String inputJson = "{\"servicePrincipalId\":\"781998f7-43d0-4c99-9d78-600ce1b6086c\",\"secretKeyId\":\"f36cbb1f-32bb-4063-9cc3-fa305fa4d967\",\"expiryDurationMs\":604800000,\"tenantId\":\"b0163331-70a6-4edc-9bbb-40c3ad1cd965\"}";
-        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn(inputJson);
+        when(JSONUtil.getJSON(Mockito.any())).thenReturn(inputJson);
 
         String responseString = "{\"accessKeyId\": \"testaccesskey\", \"userName\": \"svc_vault_test5\", \"accessKeySecret\": \"abcdefgh\", \"expiryDateEpoch\": \"1609754282000\"}";
         String responseStringToken = "{\"client_token\": \""+token+"\",\"servicePrincipalId\": \""+servicePrincipalId+"\",\"tenantId\": \""+tenantId+"\",\"secretKeyId\": \""+secretKeyId+"\",\"secretText\": \""+secretText+"\",\"expiryDateEpoch\": \""+expiryDateEpoch+"\"}";
@@ -282,7 +282,7 @@ public class AzureServiceAccountUtilsTest {
         when(statusLine.getStatusCode()).thenReturn(500);
         when(httpResponse.getEntity()).thenReturn(mockHttpEntity);
         String inputJson = "{\"servicePrincipalId\":\"781998f7-43d0-4c99-9d78-600ce1b6086c\",\"secretKeyId\":\"f36cbb1f-32bb-4063-9cc3-fa305fa4d967\",\"expiryDurationMs\":604800000,\"tenantId\":\"b0163331-70a6-4edc-9bbb-40c3ad1cd965\"}";
-        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn(inputJson);
+        when(JSONUtil.getJSON(Mockito.any())).thenReturn(inputJson);
         String responseString = "{\"accessKeyId\": \"testaccesskey\", \"userName\": \"svc_vault_test5\", \"accessKeySecret\": \"abcdefgh\", \"expiryDateEpoch\": \"1609754282000\"}";
         String responseStringToken = "{\"auth\": {\"client_token\": \""+token+"\"}}";
         when(mockHttpEntity.getContent()).thenAnswer(new Answer() {

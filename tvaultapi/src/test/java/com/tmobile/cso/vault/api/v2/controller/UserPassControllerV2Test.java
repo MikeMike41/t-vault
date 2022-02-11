@@ -75,7 +75,7 @@ public class UserPassControllerV2Test {
         String responseMessage = "{\"messages\":[\"Username User created\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(userpassService.createUser(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(userpassService.createUser(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/userpass/users")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -91,7 +91,7 @@ public class UserPassControllerV2Test {
         String responseMessage = "\"{  \\\"data\\\": { \\\"bound_cidrs\\\": [], \\\"max_ttl\\\": 0,\\\"policies\\\": [  \\\"default\\\" ], \\\"ttl\\\": 0  }}\"";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(userpassService.readUser(eq("5PDrOhsy4ig8L3EpsJZSLAMg"),eq("user1"))).thenReturn(responseEntityExpected);
+        when(userpassService.readUser(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.eq("user1"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/userpass/users/user1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -109,7 +109,7 @@ public class UserPassControllerV2Test {
         String responseMessage = "{\"messages\":[\"Username User deleted\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(userpassService.deleteUser(eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any())).thenReturn(responseEntityExpected);
+        when(userpassService.deleteUser(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/auth/userpass/users/user1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -128,7 +128,7 @@ public class UserPassControllerV2Test {
         String responseMessage = "{\"messages\":[\"Password for the user updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(userpassService.updatePassword(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(userpassService.updatePassword(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v2/auth/userpass/users")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -144,7 +144,7 @@ public class UserPassControllerV2Test {
         String responseMessage = "{  \"data\": { \"keys\": [ \"safeadmin\",\"testuser1\", \"testuser2\", \"vaultadmin\"] }}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(userpassService.listUsers(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(userpassService.listUsers(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/userpass/users")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")

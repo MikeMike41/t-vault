@@ -394,7 +394,7 @@ public class IAMServiceAccountsControllerTest {
 		String inputJson = new ObjectMapper().writeValueAsString(serviceAccountApprole);
 		String responseJson = "{\"messages\":[\"Approle is successfully associated with Service Account\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-		when(iamServiceAccountsService.associateApproletoIAMsvcacc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
+		when(iamServiceAccountsService.associateApproletoIAMsvcacc(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
 				Mockito.any(IAMServiceAccountApprole.class))).thenReturn(responseEntityExpected);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/v2/iamserviceaccounts/approle")
@@ -411,7 +411,7 @@ public class IAMServiceAccountsControllerTest {
 		String inputJson = new ObjectMapper().writeValueAsString(serviceAccountApprole);
 		String responseJson = "{\"messages\":[\"Approle is successfully removed from Service Account\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-		when(iamServiceAccountsService.removeApproleFromIAMSvcAcc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
+		when(iamServiceAccountsService.removeApproleFromIAMSvcAcc(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
 				Mockito.any(IAMServiceAccountApprole.class))).thenReturn(responseEntityExpected);
 
 		mockMvc.perform(MockMvcRequestBuilders.delete("/v2/iamserviceaccounts/approle")
@@ -445,7 +445,7 @@ public class IAMServiceAccountsControllerTest {
 		String inputJson = getJSON(iamSvcAccGroup);
 		String responseJson = "{\"messages\":[\"Group is successfully associated with IAM Service Account\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-		when(iamServiceAccountsService.addGroupToIAMServiceAccount(Mockito.anyString(), Mockito.any(), Mockito.any(), eq(false)))
+		when(iamServiceAccountsService.addGroupToIAMServiceAccount(Mockito.anyString(), Mockito.any(), Mockito.any(), Mockito.eq(false)))
 				.thenReturn(responseEntityExpected);
 		MvcResult result = mockMvc
 				.perform(MockMvcRequestBuilders.post("/v2/iamserviceaccounts/group")
@@ -478,7 +478,7 @@ public class IAMServiceAccountsControllerTest {
 
 		String responseJson = "{\"messages\":[\"IAM Service account activated successfully\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-		when(iamServiceAccountsService.activateIAMServiceAccount(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq(userDetails), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
+		when(iamServiceAccountsService.activateIAMServiceAccount(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq(userDetails), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/v2/iamserviceaccount/activate?serviceAccountName=testiamname&awsAccountId=testawsaccount").requestAttr("UserDetails", userDetails)
 				.header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -493,7 +493,7 @@ public class IAMServiceAccountsControllerTest {
 		String inputJson = getJSON(iamServiceAccountRotateRequest);
 		String responseJson = "{\"messages\":[\"IAM Service account activated successfully\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-		when(iamServiceAccountsService.rotateIAMServiceAccount(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(IAMServiceAccountRotateRequest.class), Mockito.any())).thenReturn(responseEntityExpected);
+		when(iamServiceAccountsService.rotateIAMServiceAccount(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(IAMServiceAccountRotateRequest.class), Mockito.any())).thenReturn(responseEntityExpected);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/v2/iamserviceaccount/rotate").requestAttr("UserDetails", userDetails)
 				.header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -509,7 +509,7 @@ public class IAMServiceAccountsControllerTest {
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 		String expected = responseEntityExpected.getBody();
 
-		when(iamServiceAccountsService.readSecrets(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+		when(iamServiceAccountsService.readSecrets(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
 				.thenReturn(responseEntityExpected);		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/v2/iamserviceaccounts/secrets/123456789012/testiamsvcacc01/1212zdasdssss")
 				.header(VAULT_TOKEN_STRING, token).header(CONTENT_TYPE_STRING, CONTENT_TYPE_VALUE_STRING)
@@ -547,7 +547,7 @@ public class IAMServiceAccountsControllerTest {
         String inputJson =new ObjectMapper().writeValueAsString(serviceAccountAWSRole);
 		String responseJson = "{\"messages\":[\"AWS Role created \"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-		when(iamServiceAccountsService.createIAMRole(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any()))
+		when(iamServiceAccountsService.createIAMRole(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any()))
 				.thenReturn(responseEntityExpected);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/v2/iamserviceaccounts/aws/iam/role")
@@ -570,7 +570,7 @@ public class IAMServiceAccountsControllerTest {
 		String responseJson = "{\"messages\":[\"AWS Role successfully associated with IAM Service Account\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-		when(iamServiceAccountsService.addAwsRoleToIAMSvcacc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
+		when(iamServiceAccountsService.addAwsRoleToIAMSvcacc(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
 				Mockito.any(IAMServiceAccountAWSRole.class))).thenReturn(responseEntityExpected);
 		
 		
@@ -593,7 +593,7 @@ public class IAMServiceAccountsControllerTest {
 		String responseJson = "{\"messages\":[\"AWS Role is successfully removed from IAM Service Account\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 
-		when(iamServiceAccountsService.removeAWSRoleFromIAMSvcacc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
+		when(iamServiceAccountsService.removeAWSRoleFromIAMSvcacc(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
 				Mockito.any(IAMServiceAccountAWSRole.class))).thenReturn(responseEntityExpected);
 
 		 mockMvc
@@ -611,7 +611,7 @@ public class IAMServiceAccountsControllerTest {
 		String inputJson = new ObjectMapper().writeValueAsString(serviceAccountAWSRole);
 		String responseJson = "{\"messages\":[\"AWS Role created \"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-		when(iamServiceAccountsService.createAWSRole(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
+		when(iamServiceAccountsService.createAWSRole(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),
 				Mockito.any(AWSLoginRole.class))).thenReturn(responseEntityExpected);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/v2/iamserviceaccounts/aws/role").header(VAULT_TOKEN_STRING, token)
@@ -649,7 +649,7 @@ public class IAMServiceAccountsControllerTest {
 		String inputJson = getJSON(iamServiceAccountAccessKey);
 		String responseJson = "{\"messages\":[\"IAM Service account access key deleted successfully\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-		when(iamServiceAccountsService.deleteIAMServiceAccountCreds(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(IAMServiceAccountAccessKey.class))).thenReturn(responseEntityExpected);
+		when(iamServiceAccountsService.deleteIAMServiceAccountCreds(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(IAMServiceAccountAccessKey.class))).thenReturn(responseEntityExpected);
 
 		mockMvc.perform(MockMvcRequestBuilders.delete("/v2/iamserviceaccount/secrets/keys").requestAttr("UserDetails", userDetails)
 				.header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -681,7 +681,7 @@ public class IAMServiceAccountsControllerTest {
 		String inputJson = getJSON(iamServiceAccountAccessKey);
 		String responseJson = "{\"messages\":[\"Successfully created access key secrets for IAM Service Account\"]}";
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
-		when(iamServiceAccountsService.createAccessKeys(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), eq("testiamname"), eq("1234567890"))).thenReturn(responseEntityExpected);
+		when(iamServiceAccountsService.createAccessKeys(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.eq("testiamname"), Mockito.eq("1234567890"))).thenReturn(responseEntityExpected);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/v2/iamserviceaccounts/1234567890/testiamname/keys").requestAttr("UserDetails", userDetails)
 				.header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")

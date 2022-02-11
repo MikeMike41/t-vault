@@ -47,7 +47,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackages = {"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ControllerUtil.class, JSONUtil.class,EntityUtils.class,HttpClientBuilder.class, OIDCUtil.class})
-@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
+@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*", "javax.script.*"})
 public class SSLExternalCertificateSchedulerTest {
 
     private MockMvc mockMvc;
@@ -87,7 +87,7 @@ public class SSLExternalCertificateSchedulerTest {
 
         ReflectionTestUtils.setField(sslExternalCertificateScheduler, "isSSLExtProcessScheduleEnabled", true);
 
-        when(JSONUtil.getJSON(any(ImmutableMap.class))).thenReturn("log");
+        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn("log");
 
         Map<String, String> currentMap = new HashMap<>();
         currentMap.put("apiurl", "ssl external certificate process scheduler");
@@ -122,10 +122,10 @@ public class SSLExternalCertificateSchedulerTest {
         response.setResponse(metaDataJson);
         response.setSuccess(true);
 
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.APPROVED);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.APPROVED);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -150,10 +150,10 @@ public class SSLExternalCertificateSchedulerTest {
         response.setResponse(metaDataJson);
         response.setSuccess(true);
 
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(null);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.APPROVED);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.APPROVED);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -178,10 +178,10 @@ public class SSLExternalCertificateSchedulerTest {
         response.setResponse(metaDataJson);
         response.setSuccess(true);
 
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.APPROVED);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.APPROVED);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -206,10 +206,10 @@ public class SSLExternalCertificateSchedulerTest {
         response.setResponse(metaDataJson);
         response.setSuccess(true);
 
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.APPROVED);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.APPROVED);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -233,10 +233,10 @@ public class SSLExternalCertificateSchedulerTest {
         response.setResponse(metaDataJson);
         response.setSuccess(true);
 
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.APPROVED);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.APPROVED);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -262,10 +262,10 @@ public class SSLExternalCertificateSchedulerTest {
         response.setResponse(metaDataJson);
         response.setSuccess(true);
 
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.APPROVED);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.APPROVED);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -288,11 +288,11 @@ public class SSLExternalCertificateSchedulerTest {
         response.setHttpstatus(HttpStatus.OK);
         response.setResponse(metaDataJson);
         response.setSuccess(true);
-        when(ControllerUtil.updateMetaDataOnPath(anyString(), anyMap(), anyString())).thenReturn(Boolean.TRUE);
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(ControllerUtil.updateMetaDataOnPath(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(Boolean.TRUE);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.STATUS_REJECTED);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.STATUS_REJECTED);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -315,11 +315,11 @@ public class SSLExternalCertificateSchedulerTest {
         response.setHttpstatus(HttpStatus.OK);
         response.setResponse(metaDataJson);
         response.setSuccess(true);
-        when(ControllerUtil.updateMetaDataOnPath(anyString(), anyMap(), anyString())).thenReturn(Boolean.TRUE);
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(ControllerUtil.updateMetaDataOnPath(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(Boolean.TRUE);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.STATUS_WAITING);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.STATUS_WAITING);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -342,11 +342,11 @@ public class SSLExternalCertificateSchedulerTest {
         response.setHttpstatus(HttpStatus.OK);
         response.setResponse(metaDataJson);
         response.setSuccess(true);
-        when(ControllerUtil.updateMetaDataOnPath(anyString(), anyMap(), anyString())).thenReturn(Boolean.FALSE);
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(ControllerUtil.updateMetaDataOnPath(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(Boolean.FALSE);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.STATUS_WAITING);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.STATUS_WAITING);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -369,11 +369,11 @@ public class SSLExternalCertificateSchedulerTest {
         response.setHttpstatus(HttpStatus.OK);
         response.setResponse(metaDataJson);
         response.setSuccess(true);
-        when(ControllerUtil.updateMetaDataOnPath(anyString(), anyMap(), anyString())).thenReturn(Boolean.FALSE);
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(ControllerUtil.updateMetaDataOnPath(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(Boolean.FALSE);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.STATUS_WAITING);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.STATUS_WAITING);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -396,11 +396,11 @@ public class SSLExternalCertificateSchedulerTest {
         response.setHttpstatus(HttpStatus.OK);
         response.setResponse(metaDataJson);
         response.setSuccess(true);
-        when(ControllerUtil.updateMetaDataOnPath(anyString(), anyMap(), anyString())).thenReturn(Boolean.FALSE);
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(ControllerUtil.updateMetaDataOnPath(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(Boolean.FALSE);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        when(sslCertificateService.getExternalCertReqStatus(anyObject())).thenReturn(SSLCertificateConstants.STATUS_WAITING);
+        when(sslCertificateService.getExternalCertReqStatus(Mockito.any())).thenReturn(SSLCertificateConstants.STATUS_WAITING);
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);
@@ -424,11 +424,11 @@ public class SSLExternalCertificateSchedulerTest {
         response.setHttpstatus(HttpStatus.OK);
         response.setResponse(metaDataJson);
         response.setSuccess(true);
-        when(ControllerUtil.updateMetaDataOnPath(anyString(), anyMap(), anyString())).thenReturn(Boolean.FALSE);
-        when(reqProcessor.process(eq("/read"), anyObject(), anyString())).thenReturn(response);
+        when(ControllerUtil.updateMetaDataOnPath(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString())).thenReturn(Boolean.FALSE);
+        when(reqProcessor.process(Mockito.eq("/read"), Mockito.any(), Mockito.anyString())).thenReturn(response);
         Response certResponse =getMockResponse(HttpStatus.OK, true, "{  \"data\": {  \"keys\": [    \"CertificateName.t-mobile.com\"    ]  }}");
         when(reqProcessor.process(Mockito.eq("/sslcert"),Mockito.anyString(),Mockito.anyString())).thenReturn(certResponse);
-        doThrow(new Exception("Exception")).when(sslCertificateService).getExternalCertReqStatus(anyObject());
+        doThrow(new Exception("Exception")).when(sslCertificateService).getExternalCertReqStatus(Mockito.any());
         String expected = "{\"message\":[\"Certificate approved and metadata successfully updated\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(expected);
         when(sslCertificateService.validateApprovalStatusAndGetCertificateDetails(Mockito.anyString(),Mockito.anyString(), Mockito.anyObject())).thenReturn(responseEntityExpected);

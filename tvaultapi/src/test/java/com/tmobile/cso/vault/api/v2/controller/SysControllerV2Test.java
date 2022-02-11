@@ -102,7 +102,7 @@ public class SysControllerV2Test {
         String responseMessage = "{  \"sealed\": false,  \"progress\": 0}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(sysService.unsealProgress(eq("localhost"))).thenReturn(responseEntityExpected);
+        when(sysService.unsealProgress(Mockito.eq("localhost"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/unseal-progress?serverip=localhost")
                 .header("Content-Type", "application/json;charset=UTF-8"))

@@ -250,7 +250,7 @@ public class ServiceAccountsControllerV2Test {
    	
         String expected = "{\"errors\":[\"Successfully added user to the Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(expected);
-        when(serviceAccountsService.addUserToServiceAccount(Mockito.anyString(), Mockito.any(), Mockito.any(), eq(false))).thenReturn(responseEntityExpected);
+        when(serviceAccountsService.addUserToServiceAccount(Mockito.anyString(), Mockito.any(), Mockito.any(), Mockito.eq(false))).thenReturn(responseEntityExpected);
         String inputJson = getJSON(serviceAccountUser);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/user")
                 .header("vault-token", token)
@@ -364,7 +364,7 @@ public class ServiceAccountsControllerV2Test {
         String responseJson = "{\"messages\":[\"Group is successfully associated with Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(serviceAccountsService.addGroupToServiceAccount(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountGroup.class), eq(userDetails))).thenReturn(responseEntityExpected);
+        when(serviceAccountsService.addGroupToServiceAccount(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountGroup.class), Mockito.eq(userDetails))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/group").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -382,7 +382,7 @@ public class ServiceAccountsControllerV2Test {
         String responseJson = "{\"messages\":[\"Group is successfully removed from Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(serviceAccountsService.removeGroupFromServiceAccount(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountGroup.class), eq(userDetails))).thenReturn(responseEntityExpected);
+        when(serviceAccountsService.removeGroupFromServiceAccount(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountGroup.class), Mockito.eq(userDetails))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/serviceaccounts/group").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -400,7 +400,7 @@ public class ServiceAccountsControllerV2Test {
         String responseJson = "{\"messages\":[\"Approle is successfully associated with Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(serviceAccountsService.associateApproletoSvcAcc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountApprole.class))).thenReturn(responseEntityExpected);
+        when(serviceAccountsService.associateApproletoSvcAcc(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountApprole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/approle").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -418,7 +418,7 @@ public class ServiceAccountsControllerV2Test {
         String responseJson = "{\"messages\":[\"Approle is successfully removed from Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(serviceAccountsService.removeApproleFromSvcAcc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountApprole.class))).thenReturn(responseEntityExpected);
+        when(serviceAccountsService.removeApproleFromSvcAcc(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountApprole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/serviceaccounts/approle").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -463,7 +463,7 @@ public class ServiceAccountsControllerV2Test {
         String responseJson = "{\"messages\":[\"AWS Role successfully associated with Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(serviceAccountsService.addAwsRoleToSvcacc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountAWSRole.class))).thenReturn(responseEntityExpected);
+        when(serviceAccountsService.addAwsRoleToSvcacc(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountAWSRole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/role").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -481,7 +481,7 @@ public class ServiceAccountsControllerV2Test {
         String responseJson = "{\"messages\":[\"AWS Role is successfully removed from Service Account\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(serviceAccountsService.removeAWSRoleFromSvcacc(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountAWSRole.class))).thenReturn(responseEntityExpected);
+        when(serviceAccountsService.removeAWSRoleFromSvcacc(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(ServiceAccountAWSRole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/serviceaccounts/role").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -499,7 +499,7 @@ public class ServiceAccountsControllerV2Test {
         String responseJson = "{\"messages\":[\"AWS Role created \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(serviceAccountsService.createAWSRole(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(AWSLoginRole.class))).thenReturn(responseEntityExpected);
+        when(serviceAccountsService.createAWSRole(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(AWSLoginRole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/aws/role").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -517,7 +517,7 @@ public class ServiceAccountsControllerV2Test {
         String responseJson = "{\"messages\":[\"AWS Role created \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
         UserDetails userDetails = getMockUser(false);
-        when(serviceAccountsService.createIAMRole(eq(userDetails), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(AWSIAMRole.class))).thenReturn(responseEntityExpected);
+        when(serviceAccountsService.createIAMRole(Mockito.eq(userDetails), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(AWSIAMRole.class))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/serviceaccounts/aws/iam/role").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")

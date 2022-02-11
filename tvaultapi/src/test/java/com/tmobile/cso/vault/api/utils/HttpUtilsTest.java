@@ -41,22 +41,19 @@ import org.springframework.context.annotation.ComponentScan;
 
 import org.apache.http.client.HttpClient;
 
-import java.security.KeyManagementException;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.validation.constraints.AssertTrue;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ JSONUtil.class, HttpClientBuilder.class})
-@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
+@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*", "javax.script.*"})
 public class HttpUtilsTest {
 
     @InjectMocks
@@ -94,18 +91,11 @@ public class HttpUtilsTest {
         HttpClient httpClientActual = httpUtils.getHttpClient();
         assertNotNull(httpClientActual);
     }
-    
+
     @Test
-    public void test_getHttpClient_failure() {
-
-
-        when(HttpClientBuilder.create()).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setSSLContext(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.setRedirectStrategy(any())).thenReturn(httpClientBuilder);
-        when(httpClientBuilder.build()).thenThrow(KeyManagementException.class);
-
-        HttpClient httpClientActual = httpUtils.getHttpClient();
+    public void test_getHttpClient_failure() throws Exception {
+        when(HttpClientBuilder.create()).thenThrow(new RuntimeException());
+        httpUtils.getHttpClient();
         assertTrue(true);
     }
 }

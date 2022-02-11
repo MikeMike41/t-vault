@@ -52,7 +52,7 @@ import com.tmobile.cso.vault.api.service.AppRoleService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class)
-@ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
+@ComponentScan(basePackages={"com.tmobile.cso.vault.api", "javax.script.*"})
 @WebAppConfiguration
 public class AppRoleControllerV2Test {
 
@@ -90,7 +90,7 @@ public class AppRoleControllerV2Test {
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
         UserDetails userDetails = getMockUser(true);
-        when(appRoleService.createAppRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), eq(userDetails))).thenReturn(responseEntityExpected);
+        when(appRoleService.createAppRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.eq(userDetails))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/approle/role").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -109,7 +109,7 @@ public class AppRoleControllerV2Test {
         String responseMessage = "{\"messages\":[\"Approle associated to SDB\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(appRoleService.associateApprole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(appRoleService.associateApprole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/approle/associateApprole")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -125,7 +125,7 @@ public class AppRoleControllerV2Test {
         String responseMessage = "sample response";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(appRoleService.readAppRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(appRoleService.readAppRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/approle/role/approle1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -141,7 +141,7 @@ public class AppRoleControllerV2Test {
         String responseMessage = "sample response";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(appRoleService.readAppRoles(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(appRoleService.readAppRoles(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/approle/role")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -157,7 +157,7 @@ public class AppRoleControllerV2Test {
         String responseMessage = "sample response";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(appRoleService.readAppRoleRoleId(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(appRoleService.readAppRoleRoleId(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/approle/role/approle1/role_id")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -173,7 +173,7 @@ public class AppRoleControllerV2Test {
         String responseMessage = "{\"messages\":[\"AppRole deleted\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
         UserDetails userDetails = getMockUser(false);
-        when(appRoleService.deleteAppRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
+        when(appRoleService.deleteAppRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/auth/approle/role/approle1").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -190,7 +190,7 @@ public class AppRoleControllerV2Test {
         String responseMessage = "{\"messages\":[\"Secret ID created for AppRole\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(appRoleService.createsecretId(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(appRoleService.createsecretId(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/approle/role/secret_id")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -208,7 +208,7 @@ public class AppRoleControllerV2Test {
         String responseMessage = "{\"messages\":[\"Secret ID created for AppRole\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(appRoleService.deleteSecretId(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(appRoleService.deleteSecretId(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/auth/approle/role/secret_id")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -225,7 +225,7 @@ public class AppRoleControllerV2Test {
         String responseMessage = "sample response";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(appRoleService.readAppRoleSecretId(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(appRoleService.readAppRoleSecretId(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/approle/role/approle1/secret_id")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")

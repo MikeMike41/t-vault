@@ -51,7 +51,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ JSONUtil.class, ControllerUtil.class})
-@PowerMockIgnore({"javax.management.*"})
+@PowerMockIgnore({"javax.management.*", "javax.script.*"})
 public class OIDCUtilTest {
 	
 	@Mock
@@ -110,7 +110,7 @@ public class OIDCUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
         Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
-        when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/sys/list"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         String mountAccessor = oidcUtil.fetchMountAccessorForOidc(token);
         assertEquals("auth_oidc_8b51f292", mountAccessor);
     }
@@ -381,7 +381,7 @@ public class OIDCUtilTest {
            ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
            String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
            Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
-           when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
+           when(reqProcessor.process(Mockito.eq("/sys/list"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
            OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
            oidcLookupEntityRequest.setAlias_name("alias_name");
            oidcLookupEntityRequest.setAlias_mount_accessor("alias_mount_accessor");
@@ -431,7 +431,7 @@ public class OIDCUtilTest {
         ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
         Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
-        when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/sys/list"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
         oidcLookupEntityRequest.setAlias_name("alias_name");
         oidcLookupEntityRequest.setAlias_mount_accessor("alias_mount_accessor");
@@ -477,7 +477,7 @@ public class OIDCUtilTest {
         ResponseEntity<DirectoryObjects> responseEntity1 = ResponseEntity.status(HttpStatus.OK).body(users);
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
         Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
-        when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/sys/list"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         OIDCLookupEntityRequest oidcLookupEntityRequest = new OIDCLookupEntityRequest();
         oidcLookupEntityRequest.setAlias_name("alias_name");
         oidcLookupEntityRequest.setAlias_mount_accessor("alias_mount_accessor");
@@ -635,7 +635,7 @@ public class OIDCUtilTest {
         });
         String dataOutput = "{\"data\":{\"oidc/\":{\"accessor\":\"auth_oidc_8b51f292\",\"config\":{\"default_lease_ttl\":0,\"force_no_cache\":false,\"max_lease_ttl\":0,\"token_type\":\"default-service\"},\"description\":\"\",\"external_entropy_access\":false,\"local\":false,\"options\":null,\"seal_wrap\":false,\"type\":\"oidc\",\"uuid\":\"fbd45cc4-d6b6-8b49-6d1a-d4d931345df9\"}}}";
         Response responsemock = getMockResponse(HttpStatus.OK, true, dataOutput);
-        when(reqProcessor.process(eq("/sys/list"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/sys/list"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
 
         List<String> currentPolicies = new ArrayList<>();
         currentPolicies.add("testpolicy2");

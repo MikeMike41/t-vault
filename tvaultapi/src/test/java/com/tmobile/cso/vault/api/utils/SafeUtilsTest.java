@@ -31,6 +31,7 @@ import com.tmobile.cso.vault.api.process.Response;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -59,7 +60,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ JSONUtil.class, ControllerUtil.class})
-@PowerMockIgnore({"javax.management.*"})
+@PowerMockIgnore({"javax.management.*", "javax.script.*"})
 public class SafeUtilsTest {
     @InjectMocks
     SafeUtils safeUtils;
@@ -79,7 +80,7 @@ public class SafeUtilsTest {
         PowerMockito.mockStatic(ControllerUtil.class);
         Whitebox.setInternalState(ControllerUtil.class, "log", LogManager.getLogger(ControllerUtil.class));
         Whitebox.setInternalState(ControllerUtil.class, "reqProcessor", reqProcessor);
-        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn("log");
+        when(JSONUtil.getJSON(Mockito.any())).thenReturn("log");
         when(ControllerUtil.getReqProcessor()).thenReturn(reqProcessor);
         Map<String, String> currentMap = new HashMap<>();
         currentMap.put("apiurl", "http://localhost:8080/vault/v2/sdb");
@@ -263,7 +264,7 @@ public class SafeUtilsTest {
 
     @Test
     public void test_getSafeMetaData_failure() {
-        Response response = getMockResponse(HttpStatus.OK, true, "");
+        Response response = getMockResponse(HttpStatus.OK, true, "{");
 
         when(ControllerUtil.getSafeType("users/ert")).thenReturn("users");
         when(ControllerUtil.getSafeName("users/ert")).thenReturn("ert");

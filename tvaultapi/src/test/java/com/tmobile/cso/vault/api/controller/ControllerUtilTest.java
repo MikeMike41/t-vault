@@ -39,6 +39,7 @@ import com.tmobile.cso.vault.api.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
@@ -71,7 +72,7 @@ import com.tmobile.cso.vault.api.utils.TokenUtils;
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ JSONUtil.class})
-@PowerMockIgnore({"javax.management.*"})
+@PowerMockIgnore({"javax.management.*", "javax.script.*"})
 public class ControllerUtilTest {
 
     @Mock
@@ -127,7 +128,7 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
 
         Response responsemock = getMockResponse(HttpStatus.NO_CONTENT, true, "");
-        when(reqProcessor.process(eq("/auth/ldap/users/configure"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/auth/ldap/users/configure"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         Response response = ControllerUtil.configureLDAPUser(userName, policies, groups, token);
         assertEquals(HttpStatus.NO_CONTENT, response.getHttpstatus());
     }
@@ -139,7 +140,7 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
 
         Response responsemock = getMockResponse(HttpStatus.NO_CONTENT, true, "");
-        when(reqProcessor.process(eq("/auth/userpass/updatepolicy"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/auth/userpass/updatepolicy"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         Response response = ControllerUtil.configureUserpassUser(userName, policies, token);
         assertEquals(HttpStatus.NO_CONTENT, response.getHttpstatus());
     }
@@ -152,7 +153,7 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
 
         Response responsemock = getMockResponse(HttpStatus.NO_CONTENT, true, "");
-        when(reqProcessor.process(eq("/auth/ldap/groups/configure"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/auth/ldap/groups/configure"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         Response response = ControllerUtil.configureLDAPGroup(groupName, policies, token);
         assertEquals(HttpStatus.NO_CONTENT, response.getHttpstatus());
     }
@@ -164,7 +165,7 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
 
         Response responsemock = getMockResponse(HttpStatus.NO_CONTENT, true, "");
-        when(reqProcessor.process(eq("/auth/aws/roles/update"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/auth/aws/roles/update"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         Response response = ControllerUtil.configureAWSRole(roleName, policies, token);
         assertEquals(HttpStatus.NO_CONTENT, response.getHttpstatus());
     }
@@ -176,7 +177,7 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
 
         Response responsemock = getMockResponse(HttpStatus.NO_CONTENT, true, "");
-        when(reqProcessor.process(eq("/auth/aws/iam/roles/update"),Mockito.any(),eq(token))).thenReturn(responsemock);
+        when(reqProcessor.process(Mockito.eq("/auth/aws/iam/roles/update"),Mockito.any(),Mockito.eq(token))).thenReturn(responsemock);
         Response response = ControllerUtil.configureAWSIAMRole(roleName, policies, token);
         assertEquals(HttpStatus.NO_CONTENT, response.getHttpstatus());
     }
@@ -195,7 +196,7 @@ public class ControllerUtilTest {
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"description\":\"My first safe\",\"name\":\"safe01\",\"owner\":\"youremail@yourcompany.com\",\"ownerid\":\"normaluser\",\"type\":\"\"}}");
         when(reqProcessor.process("/read",pathjson,token)).thenReturn(metaResponse);
         Response response = getMockResponse(HttpStatus.CREATED, true, "");
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(response);
 
         Response actualResponse = ControllerUtil.updateMetadata(params, token);
         assertEquals(HttpStatus.CREATED, actualResponse.getHttpstatus());
@@ -214,9 +215,9 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
 
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"description\":\"My first safe\",\"name\":\"safe01\",\"owner\":\"youremail@yourcompany.com\",\"ownerid\":\"normaluser\",\"type\":\"\"}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
         Response response = getMockResponse(HttpStatus.NO_CONTENT, true, "");
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(response);
 
         Response actualResponse = ControllerUtil.updateMetaDataOnConfigChanges("role1", "roles", "", "\"[prod, w_users_safe01\"]", token);
         assertEquals(HttpStatus.OK, actualResponse.getHttpstatus());
@@ -227,9 +228,9 @@ public class ControllerUtilTest {
         String token = "7QPMPIGiyDFlJkrK3jFykUqa";
 
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{\"description\":\"My first safe\",\"name\":\"safe01\",\"owner\":\"youremail@yourcompany.com\",\"ownerid\":\"normaluser\",\"type\":\"\"}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
         Response response = getMockResponse(HttpStatus.NOT_FOUND, true, "");
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(response);
 
         Response actualResponse = ControllerUtil.updateMetaDataOnConfigChanges("role1", "roles", "\"[w_users_safe01\"]", "\"[prod, dev\"]", token);
         assertEquals(HttpStatus.MULTI_STATUS, actualResponse.getHttpstatus());
@@ -244,9 +245,9 @@ public class ControllerUtilTest {
         params.put("path",new StringBuffer(TVaultConstants.SVC_ACC_ROLES_PATH).append("testacc02").toString());
         params.put("value","true");
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{ \"initialPasswordReset\": false,\"managedBy\": \"snagara14\",\"name\": \"svc_vault_test2\",\"users\": {\"snagara14\": \"sudo\"}}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
         Response response = getMockResponse(HttpStatus.OK, true, "");
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(response);
 
         Response actualResponse = ControllerUtil.updateMetadataOnSvcaccPwdReset(params, token);
         assertEquals(HttpStatus.OK, actualResponse.getHttpstatus());
@@ -261,7 +262,7 @@ public class ControllerUtilTest {
         params.put("path",new StringBuffer(TVaultConstants.SVC_ACC_ROLES_PATH).append("testacc02").toString());
         params.put("value","true");
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{ \"initialPasswordReset\": true,\"managedBy\": \"snagara14\",\"name\": \"svc_vault_test2\",\"users\": {\"snagara14\": \"sudo\"}}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
 
         Response actualResponse = ControllerUtil.updateMetadataOnSvcaccPwdReset(params, token);
         assertEquals(HttpStatus.OK, actualResponse.getHttpstatus());
@@ -345,7 +346,7 @@ public class ControllerUtilTest {
 		Response responseEntity3 = getMockResponse(HttpStatus.NO_CONTENT, true, "{\"data\": [\"safeadmin\",\"vaultadmin\"]]");
 		when(oidcUtil.updateOIDCEntity(any(), any()))
 				.thenReturn(responseEntity3);
-		when(oidcUtil.oidcFetchEntityDetails(any(), any(), any(), eq(true))).thenReturn(responseEntity2);
+		when(oidcUtil.oidcFetchEntityDetails(any(), any(), any(), Mockito.eq(true))).thenReturn(responseEntity2);
         ControllerUtil.updateUserPolicyAssociationOnSDBDelete("users/safe01", acessInfo,  token, userDetails);
         assertTrue(true);
     }
@@ -753,7 +754,7 @@ public class ControllerUtilTest {
     public void test_getAppRoleObjFromString_failure() throws IOException {
         String [] policies = {"default"};
         String jsonStr = "{\"role_names\":\"role1\",\"policies\":[\"default\"],\"bind_secret_id\":true,\"secret_id_num_uses\":\"1\",\"secret_id_ttl\":\"100m\",\"token_num_uses\":0,\"token_ttl\":null,\"token_max_ttl\":null}";
-        when(JSONUtil.getObj(jsonStr, AppRole.class)).thenThrow(Exception.class);
+        when(JSONUtil.getObj(any(), any())).thenThrow(IndexOutOfBoundsException.class);
         AppRole appRoleActual = ControllerUtil.getAppRoleObjFromString(jsonStr);
         assertEquals(null, appRoleActual);
     }
@@ -1161,8 +1162,8 @@ public class ControllerUtilTest {
         serviceAccount.setAppName("app1");
 
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{ \"initialPasswordReset\": false,\"managedBy\": \"svcuser2\",\"name\": \"svc_vault_test2\",\"users\": {\"svcuser1\": \"sudo\"}}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
         Response actualResponse = ControllerUtil.updateMetadataOnSvcUpdate(path, serviceAccount, token);
         assertEquals(HttpStatus.NO_CONTENT, actualResponse.getHttpstatus());
     }
@@ -1190,8 +1191,8 @@ public class ControllerUtilTest {
                 "\"createdAtEpoch\":5184000,\"expiryDateEpoch\":605800000,\"expiryDuration\":605800000,\"groups\":{\"testgroup\":\"write\"}," +
                 "\"isActivated\":true,\"owner_email\":\"wow@gmail.com\",\"owner_ntid\":\"iamsvcuser1\",\"secret\":[{\"accessKeyId\":\"123456789123412345\"" +
                 ",\"expiryDuration\":605800000}],\"userName\":\"svc_tvt_test4\",\"users\":{}}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
         Response actualResponse = ControllerUtil.updateMetadataOnIAMSvcUpdate(path, iamSvcAcc, token);
         assertEquals(HttpStatus.NO_CONTENT, actualResponse.getHttpstatus());
     }
@@ -1205,7 +1206,7 @@ public class ControllerUtilTest {
        
 
         Response response = getMockResponse(HttpStatus.NO_CONTENT, true, "");
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(response);
 
         Boolean isUpdated = ControllerUtil.updateMetaDataOnPath(path, params, token);
         assertEquals(Boolean.TRUE, isUpdated);
@@ -1220,7 +1221,7 @@ public class ControllerUtilTest {
        
 
         Response response = getMockResponse(HttpStatus.BAD_REQUEST, false, "");
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(response);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(response);
 
         Boolean isUpdated = ControllerUtil.updateMetaDataOnPath(path, params, token);
         assertEquals(Boolean.FALSE, isUpdated);
@@ -1240,8 +1241,8 @@ public class ControllerUtilTest {
         adServiceAccountResetDetails.setAdServiceAccountCreds(adServiceAccountCreds);
  
         Response metaResponse = getMockResponse(HttpStatus.OK, true, "{\"data\":{ \"initialPasswordReset\": false,\"modifiedBy\":\"modifiedby\",\"modifiedAt\":\"modifiedAt\",\"managedBy\": \"svcuser2\",\"name\": \"svc_vault_test2\",\"users\": {\"svcuser1\": \"sudo\"}}}");
-        when(reqProcessor.process(eq("/read"),Mockito.any(),eq(token))).thenReturn(metaResponse);
-        when(reqProcessor.process(eq("/write"),Mockito.any(),eq(token))).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
+        when(reqProcessor.process(Mockito.eq("/read"),Mockito.any(),Mockito.eq(token))).thenReturn(metaResponse);
+        when(reqProcessor.process(Mockito.eq("/write"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.NO_CONTENT, true, ""));
         Response actualResponse = ControllerUtil.updateMetadataOnSvcPwdReset(path, adServiceAccountResetDetails, token);
         assertEquals(HttpStatus.NO_CONTENT, actualResponse.getHttpstatus());
     }  

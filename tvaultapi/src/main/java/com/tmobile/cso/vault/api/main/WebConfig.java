@@ -67,10 +67,4 @@ public class WebConfig {
 		templateResolver.setTemplateMode(templateMode);
 		return templateResolver;
 	}
-	@Bean
-	public TemplateEngine templateEngine() {
-		TemplateEngine templateEngine = new TemplateEngine();
-		templateEngine.setTemplateResolver(this.templateResolver());
-		return templateEngine;
-	}
 }

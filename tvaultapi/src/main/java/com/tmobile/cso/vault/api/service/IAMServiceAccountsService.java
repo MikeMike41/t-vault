@@ -1702,7 +1702,7 @@ public class  IAMServiceAccountsService {
 
 		Response userConfigResponse = configureUserPolicies(token, userDetails, iamServiceAccountUser, oidcEntityResponse, groups, policies);
 
-		if (userConfigResponse.getHttpstatus().equals(HttpStatus.NO_CONTENT)) {
+		if (userConfigResponse.getHttpstatus() != null && userConfigResponse.getHttpstatus().equals(HttpStatus.NO_CONTENT)) {
 			log.debug(JSONUtil.getJSON(ImmutableMap.<String, String>builder()
 					.put(LogMessage.USER, ThreadLocalContext.getCurrentMap().get(LogMessage.USER))
 					.put(LogMessage.ACTION, IAMServiceAccountConstants.ADD_USER_TO_IAMSVCACC_MSG)
@@ -1718,7 +1718,8 @@ public class  IAMServiceAccountsService {
 							iamServiceAccountUser.getUsername(), iamServiceAccountUser.getIamSvcAccName()))
 					.put(LogMessage.APIURL, ThreadLocalContext.getCurrentMap().get(LogMessage.APIURL))
 					.build()));
-			return ResponseEntity.status(userConfigResponse.getHttpstatus())
+			HttpStatus httpStatus = (userConfigResponse.getHttpstatus() != null) ? userConfigResponse.getHttpstatus() : HttpStatus.BAD_REQUEST;
+			return ResponseEntity.status(httpStatus)
 					.body(String.format("{\"errors\":[\"Failed to configure policies for user %s\"]}", iamServiceAccountUser.getUsername()));
 		}
 

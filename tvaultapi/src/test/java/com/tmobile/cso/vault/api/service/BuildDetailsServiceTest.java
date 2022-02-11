@@ -41,7 +41,7 @@ import com.tmobile.cso.vault.api.model.BuildDetails;
 @ComponentScan(basePackages = { "com.tmobile.cso.vault.api" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ BuildDetailsService.class})
-@PowerMockIgnore({ "javax.management.*", "javax.net.ssl.*" })
+@PowerMockIgnore({ "javax.management.*", "javax.net.ssl.*", "javax.script.*" })
 public class BuildDetailsServiceTest {
 
     @InjectMocks

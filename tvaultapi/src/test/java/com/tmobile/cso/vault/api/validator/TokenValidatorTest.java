@@ -62,7 +62,7 @@ import static org.mockito.Mockito.when;
 @ComponentScan(basePackages={"com.tmobile.cso.vault.api"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ JSONUtil.class})
-@PowerMockIgnore({"javax.management.*"})
+@PowerMockIgnore({"javax.management.*", "javax.script.*"})
 public class TokenValidatorTest {
 
     @InjectMocks
@@ -131,7 +131,7 @@ public class TokenValidatorTest {
         expectedLookupDetails.setPolicies(policies);
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);
-        when(commonUtils.getPoliciesAsArray(Mockito.any(), eq(response.getResponse()))).thenReturn(policies);
+        when(commonUtils.getPoliciesAsArray(Mockito.any(), Mockito.eq(response.getResponse()))).thenReturn(policies);
         when(policyUtils.getAdminPolicies()).thenReturn(adminPolicies);
         when(authorizationUtils.containsAdminPolicies(Mockito.anyList(),  Mockito.anyList())).thenReturn(true);
         VaultTokenLookupDetails lookupDetails = tokenValidator.getVaultTokenLookupDetails(token);
@@ -170,7 +170,7 @@ public class TokenValidatorTest {
         when(directoryService.searchByUPN("user1@company.com")).thenReturn(directoryObjectsResponseEntity);
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);
-        when(commonUtils.getPoliciesAsArray(Mockito.any(), eq(response.getResponse()))).thenReturn(policies);
+        when(commonUtils.getPoliciesAsArray(Mockito.any(), Mockito.eq(response.getResponse()))).thenReturn(policies);
         when(policyUtils.getAdminPolicies()).thenReturn(adminPolicies);
         when(authorizationUtils.containsAdminPolicies(Mockito.anyList(),  Mockito.anyList())).thenReturn(true);
         VaultTokenLookupDetails lookupDetails = tokenValidator.getVaultTokenLookupDetails(token);
@@ -214,7 +214,7 @@ public class TokenValidatorTest {
         when(directoryService.searchByEmailInCorp(anyString())).thenReturn(directoryObjectsResponseEntity);
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);
-        when(commonUtils.getPoliciesAsArray(Mockito.any(), eq(response.getResponse()))).thenReturn(policies);
+        when(commonUtils.getPoliciesAsArray(Mockito.any(), Mockito.eq(response.getResponse()))).thenReturn(policies);
         when(policyUtils.getAdminPolicies()).thenReturn(adminPolicies);
         when(authorizationUtils.containsAdminPolicies(Mockito.anyList(),  Mockito.anyList())).thenReturn(true);
         VaultTokenLookupDetails lookupDetails = tokenValidator.getVaultTokenLookupDetails(token);
@@ -257,7 +257,7 @@ public class TokenValidatorTest {
         when(directoryService.searchByEmailInCorp(anyString())).thenReturn(directoryObjectsResponseEntity);
 
         when(reqProcessor.process("/auth/tvault/lookup","{}", token)).thenReturn(response);
-        when(commonUtils.getPoliciesAsArray(Mockito.any(), eq(response.getResponse()))).thenReturn(policies);
+        when(commonUtils.getPoliciesAsArray(Mockito.any(), Mockito.eq(response.getResponse()))).thenReturn(policies);
         when(policyUtils.getAdminPolicies()).thenReturn(adminPolicies);
         when(authorizationUtils.containsAdminPolicies(Mockito.anyList(),  Mockito.anyList())).thenReturn(true);
         VaultTokenLookupDetails lookupDetails = tokenValidator.getVaultTokenLookupDetails(token);

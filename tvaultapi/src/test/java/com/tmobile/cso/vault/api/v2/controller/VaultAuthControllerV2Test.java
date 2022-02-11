@@ -90,7 +90,7 @@ public class VaultAuthControllerV2Test {
         String responseMessage = "{\"client_token\": \"18oVRlB3ft88S6U9raoEDnKn\",\"policies\": [\"safeadmin\"],\"lease_duration\": 1800000}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(vaultAuthService.renew(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(vaultAuthService.renew(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/tvault/renew")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -105,7 +105,7 @@ public class VaultAuthControllerV2Test {
         String responseMessage = "{\"id\": \"18oVRlB3ft88S6U9raoEDnKn\",\"last_renewal_time\": 1542013233,\"renewable\": false,\"policies\": [\"default\",\"safeadmin\"],\"creation_ttl\": 1800000}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(vaultAuthService.lookup(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(vaultAuthService.lookup(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/tvault/lookup")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -120,7 +120,7 @@ public class VaultAuthControllerV2Test {
         String responseMessage = "{\"messages\":[\"Revoked Successfully\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(vaultAuthService.revoke(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(vaultAuthService.revoke(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/auth/tvault/revoke")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")

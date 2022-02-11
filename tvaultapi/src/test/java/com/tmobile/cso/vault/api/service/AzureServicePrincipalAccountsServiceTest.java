@@ -71,7 +71,7 @@ import com.tmobile.cso.vault.api.utils.TokenUtils;
 @ComponentScan(basePackages = { "com.tmobile.cso.vault.api" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @PrepareForTest({ ControllerUtil.class, JSONUtil.class, PolicyUtils.class, OIDCUtil.class})
-@PowerMockIgnore({ "javax.management.*", "javax.net.ssl.*" })
+@PowerMockIgnore({ "javax.management.*", "javax.net.ssl.*", "javax.script.*" })
 public class AzureServicePrincipalAccountsServiceTest {
 	
 	@InjectMocks
@@ -124,7 +124,7 @@ public class AzureServicePrincipalAccountsServiceTest {
 
         Whitebox.setInternalState(ControllerUtil.class, "log", LogManager.getLogger(ControllerUtil.class));
         Whitebox.setInternalState(OIDCUtil.class, "log", LogManager.getLogger(OIDCUtil.class));
-        when(JSONUtil.getJSON(Mockito.any(ImmutableMap.class))).thenReturn("log");
+        when(JSONUtil.getJSON(Mockito.any())).thenReturn("log");
         ReflectionTestUtils.setField(azureServicePrincipalAccountsService, "vaultAuthMethod", "ldap");
 		ReflectionTestUtils.setField(azureServicePrincipalAccountsService, "azureSelfSupportAdminPolicyName", "azure_admin_policy");
         Map<String, String> currentMap = new HashMap<>();
@@ -234,7 +234,7 @@ public class AzureServicePrincipalAccountsServiceTest {
 		AzureSvccAccMetadata iamSvccAccMetadata = new AzureSvccAccMetadata(azureSvccAccPath,
 				azureServiceAccountMetadataDetails);
 
-		when(reqProcessor.process(eq("/azure/onboardedlist"), Mockito.any(), eq(token))).thenReturn(getMockResponse(
+		when(reqProcessor.process(Mockito.eq("/azure/onboardedlist"), Mockito.any(), Mockito.eq(token))).thenReturn(getMockResponse(
 				HttpStatus.OK, true, "{\"keys\":[\"svc_cce_usertestrr12\",\"svc_cce_usertestrr13\"]}"));
 
 		when(JSONUtil.getJSON(Mockito.any())).thenReturn(metaDataStr);
@@ -258,7 +258,7 @@ public class AzureServicePrincipalAccountsServiceTest {
 
 		when(ControllerUtil.parseJson(iamMetaDataStr)).thenReturn(rqstParams);
 		when(ControllerUtil.convetToJson(rqstParams)).thenReturn(iamMetaDatajson);
-		when(ControllerUtil.createMetadata(any(), eq(token))).thenReturn(true);
+		when(ControllerUtil.createMetadata(Mockito.any(), Mockito.eq(token))).thenReturn(true);
 
 		// CreateIAMServiceAccountPolicies
 		ResponseEntity<String> createPolicyResponse = ResponseEntity.status(HttpStatus.OK)

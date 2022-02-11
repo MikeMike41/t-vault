@@ -104,7 +104,7 @@ public class AWSAuthControllerV2Test {
         String responseMessage = "{\"messages\":[\"AWS Role created \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsAuthService.createRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
+        when(awsAuthService.createRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any(), Mockito.any())).thenReturn(responseEntityExpected);
         UserDetails userDetails = getMockUser(true);
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/aws/role").requestAttr("UserDetails", userDetails)
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -125,7 +125,7 @@ public class AWSAuthControllerV2Test {
         String responseMessage = "{\"messages\":[\"AWS Role updated \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsAuthService.updateRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any())).thenReturn(responseEntityExpected);
+        when(awsAuthService.updateRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v2/auth/aws/role")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -140,7 +140,7 @@ public class AWSAuthControllerV2Test {
         String responseMessage = "{\"messages\":[\"Role deleted \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsAuthService.deleteRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any(),Mockito.any())).thenReturn(responseEntityExpected);
+        when(awsAuthService.deleteRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any(),Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/auth/aws/role/role1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -157,7 +157,7 @@ public class AWSAuthControllerV2Test {
                 "\"bound_vpc_id\": [    \"vpc-2f09a348\"], \"bound_subnet_id\": [ \"subnet-1122aabb\"],\"bound_region\": [\"us-east-2\"],\"policies\": [ \"\\\"[prod\",\"dev\\\"]\" ]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsAuthService.fetchRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(awsAuthService.fetchRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/aws/role/role1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -172,7 +172,7 @@ public class AWSAuthControllerV2Test {
         String responseMessage = "{ \"keys\": [\"mytestawsrole\"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsAuthService.listRoles(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(awsAuthService.listRoles(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/roles")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -192,7 +192,7 @@ public class AWSAuthControllerV2Test {
         String responseMessage = "{\"messages\":[\"AWS Client successfully configured \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsAuthService.configureClient(Mockito.any(), eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(awsAuthService.configureClient(Mockito.any(), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/aws/config/client")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -208,7 +208,7 @@ public class AWSAuthControllerV2Test {
         String responseMessage = "{ \"access_key\": \"string\", \"secret_key\": null}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsAuthService.readClientConfiguration(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(awsAuthService.readClientConfiguration(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/aws/config/client")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -227,7 +227,7 @@ public class AWSAuthControllerV2Test {
         String responseMessage = "{\"messages\":[\"STS Role created successfully \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsAuthService.createSTSRole(Mockito.any(), eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(awsAuthService.createSTSRole(Mockito.any(), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/aws/config/sts")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")

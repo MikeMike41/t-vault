@@ -79,7 +79,7 @@ public class AWSIAMAuthControllerV2Test {
         String responseMessage = "{\"messages\":[\"AWS IAM Role created successfully \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsiamAuthService.createIAMRole(Mockito.any(), eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(awsiamAuthService.createIAMRole(Mockito.any(), Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v2/auth/aws/iam/role")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -104,7 +104,7 @@ public class AWSIAMAuthControllerV2Test {
         String responseMessage = "{\"messages\":[\"AWS IAM Role created successfully \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsiamAuthService.updateIAMRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(awsiamAuthService.updateIAMRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/v2/auth/aws/iam/role")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -123,7 +123,7 @@ public class AWSIAMAuthControllerV2Test {
                 "false,\"allow_instance_migration\": false}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsiamAuthService.fetchIAMRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
+        when(awsiamAuthService.fetchIAMRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"), Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/aws/iam/role/role1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -138,7 +138,7 @@ public class AWSIAMAuthControllerV2Test {
         String responseMessage = "{  \"keys\": [ \"mytestawsrole\" ]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsiamAuthService.listIAMRoles(eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
+        when(awsiamAuthService.listIAMRoles(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"))).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/auth/aws/iam/roles")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
@@ -152,7 +152,7 @@ public class AWSIAMAuthControllerV2Test {
         String responseMessage ="{\"messages\":[\"IAM Role deleted \"]}";
         ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseMessage);
 
-        when(awsiamAuthService.deleteIAMRole(eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any())).thenReturn(responseEntityExpected);
+        when(awsiamAuthService.deleteIAMRole(Mockito.eq("5PDrOhsy4ig8L3EpsJZSLAMg"),Mockito.any())).thenReturn(responseEntityExpected);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/auth/aws/iam/roles/role1")
                 .header("vault-token", "5PDrOhsy4ig8L3EpsJZSLAMg")
