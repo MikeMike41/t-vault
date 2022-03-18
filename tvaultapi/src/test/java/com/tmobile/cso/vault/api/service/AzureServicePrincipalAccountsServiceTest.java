@@ -691,45 +691,59 @@ public class AzureServicePrincipalAccountsServiceTest {
 	}
 	
 	
-	 @Test
-	    public void test_getAzureServicePrincipalList_successfully() {
-	        userDetails = getMockUser(false);
-	        token = userDetails.getClientToken();
-	        String [] policies = {"r_users_s1", "w_users_s2", "r_shared_s3", "w_shared_s4", "r_apps_s5", "w_apps_s6", "d_apps_s7", "w_svcacct_test", "r_azuresvcacc_svc_cce_usertestrr16"};
-	        ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"shared\":[{\"s3\":\"read\"},{\"s4\":\"write\"}],\"users\":[{\"s1\":\"read\"},{\"s2\":\"write\"}],\"svcacct\":[{\"test\":\"read\"}],\"azuresvcacc\":[{\"svc_cce_usertestrr16\":\"read\"}],\"apps\":[{\"s5\":\"read\"},{\"s6\":\"write\"},{\"s7\":\"deny\"}]}");
-	       
-	        when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
-	        when(JSONUtil.getJSON(Mockito.any())).thenReturn("{\"shared\":[{\"s3\":\"read\"},{\"s4\":\"write\"}],\"users\":[{\"s1\":\"read\"},{\"s2\":\"write\"}],\"svcacct\":[{\"test\":\"read\"}],\"azuresvcacc\":[{\"svc_cce_usertestrr16\":\"read\"}],\"apps\":[{\"s5\":\"read\"},{\"s6\":\"write\"},{\"s7\":\"deny\"}]}");
-	        ResponseEntity<String> responseEntity = azureServicePrincipalAccountsService.getAzureServicePrincipalList(userDetails);
-	        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-	        assertEquals(responseEntityExpected, responseEntity);
-	    }
-	 
-	 @Test
-		public void test_readFolders_successfully() throws IOException {
-			String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-			String path = "testiamsvcacc01";
-			ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(
-					"{\"folders\":[\"testiamsvcacc01_01\",\"testiamsvcacc01_02\"],\"path\":\"testiamsvcacc01\",\"servicePrincipalName\":\"testiamsvcacc01\"}");
+	@Test
+	public void test_getAzureServicePrincipalList_successfully() {
+		userDetails = getMockUser(false);
+		token = userDetails.getClientToken();
+		String [] policies = {"r_users_s1", "w_users_s2", "r_shared_s3", "w_shared_s4", "r_apps_s5", "w_apps_s6", "d_apps_s7", "w_svcacct_test", "r_azuresvcacc_svc_cce_usertestrr16"};
+		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"shared\":[{\"s3\":\"read\"},{\"s4\":\"write\"}],\"users\":[{\"s1\":\"read\"},{\"s2\":\"write\"}],\"svcacct\":[{\"test\":\"read\"}],\"azuresvcacc\":[{\"svc_cce_usertestrr16\":\"read\"}],\"apps\":[{\"s5\":\"read\"},{\"s6\":\"write\"},{\"s7\":\"deny\"}]}");
 
-			when(reqProcessor.process(Mockito.eq("/azure/list"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true, "{\"keys\":[\"testiamsvcacc01_01\",\"testiamsvcacc01_02\"]}"));
-			ResponseEntity<String> responseEntity = azureServicePrincipalAccountsService.readFolders(token, path);
-			assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-			assertEquals(responseEntityExpected, responseEntity);
-		}
-	 
-		@Test
-		public void test_getAzureServiceAccountSecretKey_successfully() throws IOException {
-			String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
-			String iamSvcaccName = "testiamsvcacc01";
-			String folderName = "testiamsvc_01";
-			ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(
-					"{\"accessKeyId\":\"1212zdasd\",\"accessKeySecret\":\"assOOetcHce1VugthF6KE9hqv2PWWbX3ULrpe1T\",\"awsAccountId\":\"123456789012\",\"expiryDateEpoch\":1609845308000,\"userName\":\"testiamsvcacc01_01\",\"expiryDate\":\"2021-01-05 16:45:08\"}");
+		when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
+		when(JSONUtil.getJSON(Mockito.any())).thenReturn("{\"shared\":[{\"s3\":\"read\"},{\"s4\":\"write\"}],\"users\":[{\"s1\":\"read\"},{\"s2\":\"write\"}],\"svcacct\":[{\"test\":\"read\"}],\"azuresvcacc\":[{\"svc_cce_usertestrr16\":\"read\"}],\"apps\":[{\"s5\":\"read\"},{\"s6\":\"write\"},{\"s7\":\"deny\"}]}");
+		ResponseEntity<String> responseEntity = azureServicePrincipalAccountsService.getAzureServicePrincipalList(userDetails);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(responseEntityExpected, responseEntity);
+	}
 
-			when(reqProcessor.process(Mockito.eq("/azuresvcacct"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true, "{\"data\":{\"accessKeyId\":\"1212zdasd\",\"accessKeySecret\":\"assOOetcHce1VugthF6KE9hqv2PWWbX3ULrpe1T\",\"awsAccountId\":\"123456789012\",\"expiryDateEpoch\":1609845308000,\"userName\":\"testiamsvcacc01_01\",\"expiryDate\":\"2021-01-05 16:45:08\"}}"));
-			ResponseEntity<String> responseEntity = azureServicePrincipalAccountsService.getAzureServiceAccountSecretKey(token, iamSvcaccName, folderName);
-			assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-		}
+	@Test
+	public void test_getAzureServicePrincipalList_as_admin_successfully() {
+		userDetails = getMockUser(true);
+		token = userDetails.getClientToken();
+		String [] policies = {"r_users_s1", "w_users_s2", "r_shared_s3", "w_shared_s4", "r_apps_s5", "w_apps_s6", "d_apps_s7", "w_svcacct_test", "r_azuresvcacc_svc_cce_usertestrr16"};
+		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body("{\"shared\":[{\"s3\":\"read\"},{\"s4\":\"write\"}],\"users\":[{\"s1\":\"read\"},{\"s2\":\"write\"}],\"svcacct\":[{\"test\":\"read\"}],\"azuresvcacc\":[{\"svc_cce_usertestrr16\":\"read\"}],\"apps\":[{\"s5\":\"read\"},{\"s6\":\"write\"},{\"s7\":\"deny\"}]}");
+
+		when(policyUtils.getCurrentPolicies(token, userDetails.getUsername(), userDetails)).thenReturn(policies);
+		when(JSONUtil.getJSON(Mockito.any())).thenReturn("{\"shared\":[{\"s3\":\"read\"},{\"s4\":\"write\"}],\"users\":[{\"s1\":\"read\"},{\"s2\":\"write\"}],\"svcacct\":[{\"test\":\"read\"}],\"azuresvcacc\":[{\"svc_cce_usertestrr16\":\"read\"}],\"apps\":[{\"s5\":\"read\"},{\"s6\":\"write\"},{\"s7\":\"deny\"}]}");
+		ResponseEntity<String> responseEntity = azureServicePrincipalAccountsService.getAzureServicePrincipalList(userDetails);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(responseEntityExpected, responseEntity);
+	}
+	 
+	@Test
+	public void test_readFolders_successfully() throws IOException {
+		String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
+		String path = "testiamsvcacc01";
+		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(
+				"{\"folders\":[\"testiamsvcacc01_01\",\"testiamsvcacc01_02\"],\"path\":\"testiamsvcacc01\",\"servicePrincipalName\":\"testiamsvcacc01\"}");
+
+		when(reqProcessor.process(Mockito.eq("/azure/list"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true, "{\"keys\":[\"testiamsvcacc01_01\",\"testiamsvcacc01_02\"]}"));
+		ResponseEntity<String> responseEntity = azureServicePrincipalAccountsService.readFolders(token, path);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		assertEquals(responseEntityExpected, responseEntity);
+	}
+	 
+	@Test
+	public void test_getAzureServiceAccountSecretKey_successfully() throws IOException {
+		String token = "5PDrOhsy4ig8L3EpsJZSLAMg";
+		String iamSvcaccName = "testiamsvcacc01";
+		String folderName = "testiamsvc_01";
+		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(
+				"{\"accessKeyId\":\"1212zdasd\",\"accessKeySecret\":\"assOOetcHce1VugthF6KE9hqv2PWWbX3ULrpe1T\",\"awsAccountId\":\"123456789012\",\"expiryDateEpoch\":1609845308000,\"userName\":\"testiamsvcacc01_01\",\"expiryDate\":\"2021-01-05 16:45:08\"}");
+
+		when(reqProcessor.process(Mockito.eq("/azuresvcacct"),Mockito.any(),Mockito.eq(token))).thenReturn(getMockResponse(HttpStatus.OK, true, "{\"data\":{\"accessKeyId\":\"1212zdasd\",\"accessKeySecret\":\"assOOetcHce1VugthF6KE9hqv2PWWbX3ULrpe1T\",\"awsAccountId\":\"123456789012\",\"expiryDateEpoch\":1609845308000,\"userName\":\"testiamsvcacc01_01\",\"expiryDate\":\"2021-01-05 16:45:08\"}}"));
+		ResponseEntity<String> responseEntity = azureServicePrincipalAccountsService.getAzureServiceAccountSecretKey(token, iamSvcaccName, folderName);
+		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	}
 		
 		@Test
 		public void testoffboardAzureServiceAccountLdap_succss() {

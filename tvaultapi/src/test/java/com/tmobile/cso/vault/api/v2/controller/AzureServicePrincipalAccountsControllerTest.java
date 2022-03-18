@@ -192,7 +192,7 @@ public class AzureServicePrincipalAccountsControllerTest {
 		ResponseEntity<String> responseEntityExpected = ResponseEntity.status(HttpStatus.OK).body(responseJson);
 		String expected = responseEntityExpected.getBody();
 
-		when(azureServicePrincipalAccountsService.readSecret(Mockito.any(), Mockito.any(), Mockito.any()))
+		when(azureServicePrincipalAccountsService.readSecret(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
 				.thenReturn(responseEntityExpected);		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/v2/azureserviceaccounts/secret/testiamsvcacc01/1212zdasdssss")
 				.header(VAULT_TOKEN_STRING, token).header(CONTENT_TYPE_STRING, CONTENT_TYPE_VALUE_STRING)

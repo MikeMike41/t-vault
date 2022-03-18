@@ -89,8 +89,10 @@ public class AzureServicePrincipalAccountsController {
 	 */
 	@ApiOperation(value = "${AzureServicePrincipalAccountsController.readFolders.value}", notes = "${AzureServicePrincipalAccountsController.readFolders.notes}", hidden = true)
 	@GetMapping(value = "/v2/azureserviceaccounts/folders/secrets", produces = "application/json")
-	public ResponseEntity<String> readFolders(@RequestHeader(value = "vault-token") String token,
+	public ResponseEntity<String> readFolders(HttpServletRequest request, @RequestHeader(value = "vault-token") String token,
 			@RequestParam("path") String path) throws IOException {
+		UserDetails userDetails = (UserDetails) request.getAttribute(USER_DETAILS_STRING);
+		token = userDetails.isAdmin() ? userDetails.getSelfSupportToken() : token;
 		return azureServicePrincipalAccountsService.readFolders(token, path);
 	}
 	
@@ -107,6 +109,8 @@ public class AzureServicePrincipalAccountsController {
 	public ResponseEntity<String> getAzureServiceAccountSecretKey(HttpServletRequest request,
 			@RequestHeader(value = "vault-token") String token, @PathVariable("azure_svc_name") String azureServiceAccountName,
 			@PathVariable("folderName") String folderName) throws IOException {
+		UserDetails userDetails = (UserDetails) request.getAttribute(USER_DETAILS_STRING);
+		token = userDetails.isAdmin() ? userDetails.getSelfSupportToken() : token;
 		return azureServicePrincipalAccountsService.getAzureServiceAccountSecretKey(token, azureServiceAccountName, folderName);
 	}
 	
@@ -120,10 +124,11 @@ public class AzureServicePrincipalAccountsController {
 	 */
 	@ApiOperation(value = "${AzureServicePrincipalAccountsController.readSecret.value}", notes = "${AzureServicePrincipalAccountsController.readSecret.notes}", hidden = false)
 	@GetMapping(value = "/v2/azureserviceaccounts/secret/{azure_svc_name}/{secretKey}", produces = "application/json")
-	public ResponseEntity<String> readSecret(@RequestHeader(value = "vault-token") String token,
+	public ResponseEntity<String> readSecret(HttpServletRequest request, @RequestHeader(value = "vault-token") String token,
 			@PathVariable("azure_svc_name") String azureSvcName,
 			@PathVariable("secretKey") String secretKey) throws IOException {
-		return azureServicePrincipalAccountsService.readSecret(token, azureSvcName, secretKey);
+		UserDetails userDetails = (UserDetails) request.getAttribute(USER_DETAILS_STRING);
+		return azureServicePrincipalAccountsService.readSecret(userDetails, token, azureSvcName, secretKey);
 	}
 	/**
 	 * Offboard Azure service account.

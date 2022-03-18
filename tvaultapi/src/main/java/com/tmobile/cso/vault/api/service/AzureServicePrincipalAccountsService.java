@@ -1269,7 +1269,23 @@ public class AzureServicePrincipalAccountsService {
 
 		List<Map<String, String>> azureListUsers = new ArrayList<>();
 		Map<String, List<Map<String, String>>> azureList = new HashMap<>();
-		if (currentPolicies != null) {
+		if (userDetails.isAdmin()) {
+			if (currentPolicies != null) {
+				for (String policy : currentPolicies) {
+					Map<String, String> azurePolicy = new HashMap<>();
+					String[] policies = policy.split("_", -1);
+					if (policies.length >= 3) {
+						String[] policyName = Arrays.copyOfRange(policies, 2, policies.length);
+						String azureName = String.join("_", policyName);
+						String azureType = policies[1];
+						if (azureType.equals(AzureServiceAccountConstants.AZURE_SVCC_ACC_PATH_PREFIX)) {
+							azurePolicy.put(azureName, "write");
+							azureListUsers.add(azurePolicy);
+						}
+					}
+				}
+			}
+		} else if (currentPolicies != null) {
 			for (String policy : currentPolicies) {
 				Map<String, String> azurePolicy = new HashMap<>();
 				String[] policies = policy.split("_", -1);
@@ -1292,8 +1308,9 @@ public class AzureServicePrincipalAccountsService {
 					}
 				}
 			}
-			azureList.put(AzureServiceAccountConstants.AZURE_SVCC_ACC_PATH_PREFIX, azureListUsers);
 		}
+		azureList.put(AzureServiceAccountConstants.AZURE_SVCC_ACC_PATH_PREFIX, azureListUsers);
+
 		return ResponseEntity.status(HttpStatus.OK).body(JSONUtil.getJSON(azureList));
 	}
 	
@@ -1444,17 +1461,18 @@ public class AzureServicePrincipalAccountsService {
 	
 	/**
 	 * Read Secret.
+	 * @param userDetails
 	 * @param token
 	 * @param azureSvcName
 	 * @param secretKey
 	 * @return
 	 * @throws IOException
 	 */
-	public ResponseEntity<String> readSecret(String token, String azureSvcName, String secretKey)
+	public ResponseEntity<String> readSecret(UserDetails userDetails, String token, String azureSvcName, String secretKey)
 			throws IOException {
 
 		List<String> currentpolicies = commonUtils.getTokePoliciesAsList(token);
-		if (!CollectionUtils.isEmpty(currentpolicies) && !Collections.disjoint(Arrays.asList(TVaultConstants.IAM_AZURE_ADMIN_POLICY_LIST), currentpolicies)) {
+		if (!userDetails.isAdmin() && !CollectionUtils.isEmpty(currentpolicies) && !Collections.disjoint(Arrays.asList(TVaultConstants.IAM_AZURE_ADMIN_POLICY_LIST), currentpolicies)) {
 			log.debug(JSONUtil.getJSON(ImmutableMap.<String, String>builder()
 					.put(LogMessage.USER, ThreadLocalContext.getCurrentMap().get(LogMessage.USER))
 					.put(LogMessage.ACTION, "readSecrets")
@@ -1462,6 +1480,9 @@ public class AzureServicePrincipalAccountsService {
 					.put(LogMessage.APIURL, ThreadLocalContext.getCurrentMap().get(LogMessage.APIURL)).build()));
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ERRORSTR
 					+ JSONUtil.getJSON("Access denied: No permission to read secret for Azure service account") + "}");
+		}
+		if (userDetails.isAdmin()) {
+			token = userDetails.getSelfSupportToken();
 		}
 
 		azureSvcName = azureSvcName.toLowerCase();
